@@ -1,2 +1,2 @@
 # IndustryProj
-Laravel &amp; React
+Laravel
