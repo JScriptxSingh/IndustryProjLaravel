@@ -1,4 +1,5 @@
 inside project directory
+$ php artisan vendor:publish --provider="Tymon\JWTAuth\Providers\LaravelServiceProvider"
 $ composer install
 $ php artisan key:generate
 $ php artisan serv
