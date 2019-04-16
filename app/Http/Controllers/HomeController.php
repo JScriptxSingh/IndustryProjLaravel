@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
-{// Require user to be authenticated to access any method.
+{
+    // Require user to be authenticated to access any method.
     public function __construct()
     {
         $this->middleware('auth');

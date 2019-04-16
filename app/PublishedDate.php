@@ -1,8 +1,6 @@
 <?php
 
-use GuzzleHttp\Client;
-
-Route::get('/', function () {
+function getPublishedDate() {
     $client = new Client();
     $res = $client->request('GET', 'https://api.github.com/repos/gshawnr/IndustryProjLaravel/commits/master', [
         'headers' => [
@@ -22,13 +20,5 @@ Route::get('/', function () {
 
     $finalDate = date_format($date, $formatDate) . " at " .  date_format($date, $formatTime);
 
-    return view('welcome', [
-        'publishedDate' => $finalDate
-    ]);
-});
-
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/home/manage', 'HomeController@manage');
-Route::get('/home/employee', 'HomeController@employee');
+    return $finalDate;
+}
