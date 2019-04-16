@@ -1,3 +1,39 @@
+@import url('https://fonts.googleapis.com/css?family=Raleway:300i,400&subset=latin-ext');
+
+body {
+    font-family: 'Raleway', sans-serif;
+    background: #fff;
+}
+
+.brand-img {
+    margin-bottom: 4px;
+}
+
+.active-link {
+    color:rgba(0,0,0,.9);
+}
+
+@media (max-width: 61.9375em) {
+
+    .active-link::before {
+        border-left: #0686d4 3px solid;
+        content: "";
+        padding-right: 20px;
+    }
+
+    .nav-seprate {
+        border-top: 2px solid rgba(128, 128, 128, 0.2);
+        padding-top: 10px;
+        margin-top: 15px;
+    }
+}
+
+.text-muted {
+    font-weight: 300;
+    font-style: italic;
+    font-size: 0.7rem;
+}
+
 main {
     margin-top: 30px;
 }

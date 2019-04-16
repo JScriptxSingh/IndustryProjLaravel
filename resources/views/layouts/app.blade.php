@@ -15,7 +15,7 @@
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container">
                 <a class="navbar-brand mb-0 h1" href="{{ url('/') }}">
-                <img src="{{ asset('numinix.svg') }}" height="22" class="d-inline-block align-middle" alt="">
+                <img src="{{ asset('numinix.svg') }}" height="22" class="d-inline-block align-middle brand-img" alt="">
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
@@ -28,47 +28,47 @@
                         @else
                     @if( Auth::user()->hasrole('manager') )
                             <li>
-                                <a  class="nav-link {{ Request::is('home/manage' , 'home/manage/*') ? 'active' : '' }}" href="/home/manage">Manager</a> 
+                                <a  class="nav-link {{ Request::is('home/manage' , 'home/manage/*') ? 'active-link' : '' }}" href="/home/manage">Manager</a> 
                             </li>
                             @endif
                             
                             @if(Auth::user()->hasAnyRole(['manager', 'employee']))
                             <li>
-                                <a  class="nav-link {{ Request::is('home/employee' , 'home/employee/*') ? 'active' : '' }}"  href="/home/employee">Employee</a>  
+                                <a  class="nav-link {{ Request::is('home/employee' , 'home/employee/*') ? 'active-link' : '' }}"  href="/home/employee">Employee</a>  
                             </li>
                             @endif
                         @endguest
                     </ul>
 
                     <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ml-auto">
+                    <ul class="navbar-nav ml-auto nav-seprate">
                         <!-- Authentication Links -->
                         @guest
                             <li class="nav-item">
-                                <a class="nav-link active" href="{{ route('login') }}">{{ __('Login') }}</a>
+                                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
                             </li>
                             @if (Route::has('register'))
                                 <li class="nav-item">
-                                    <a class="nav-link active" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
                                 </li>
                             @endif
                         @else
-                            <li class="nav-item dropdown">
-                                <a id="navbarDropdownMenuLink" class="nav-link dropdown-toggle active" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->firstName }} <span class="caret"></span>
-                                </a>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">{{ Auth::user()->email }}</a>
+                            </li>
 
-                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                                         {{ __('Logout') }}
-                                    </a>
+                                </a>
+                            </li>
+                                    
 
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                        @csrf
-                                    </form>
-                                </div>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                @csrf
+                            </form>
                             </li>
                         @endguest
                     </ul>
