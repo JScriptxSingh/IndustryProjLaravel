@@ -13,6 +13,10 @@ body {
     color:rgba(0,0,0,.9);
 }
 
+.card {
+    width: 100%;
+}
+
 @media (max-width: 61.9375em) {
 
     .active-link::before {
