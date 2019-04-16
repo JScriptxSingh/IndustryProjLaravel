@@ -18,7 +18,7 @@ Route::get('/', function () {
     $date->modify('-7 hour');
 
     $formatDate = "D M, d Y";
-    $formatTime = "H i A";
+    $formatTime = "h i A";
 
     $finalDate = date_format($date, $formatDate) . " at " .  date_format($date, $formatTime);
 
