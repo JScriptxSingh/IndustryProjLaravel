@@ -3,7 +3,7 @@
 use GuzzleHttp\Client;
 
 Route::get('/', function () {
-    $client = new Client();
+    $client = new Client(['verify' => '../cacert.pem']);
     $res = $client->request('GET', 'https://api.github.com/repos/gshawnr/IndustryProjLaravel/commits/master', [
         'headers' => [
             'Authorization' => 'Bearer ff51716b5d5440f9a78f1dcba88fdb8cf501f53e',
