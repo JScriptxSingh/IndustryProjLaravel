@@ -1,2 +1,2 @@
-# Industrial Proj
+# Industrial Project
 Laravel
