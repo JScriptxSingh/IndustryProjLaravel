@@ -56,7 +56,7 @@
                             @csrf
                             <input type="hidden" name="email" id="email" value="manager@home.com">
                             <input type="hidden" name="password" id="password" value="P@ssw0rd!">
-                            <button type="submit" class="btn btn-outline-success">Click to login as Manager</button>
+                            <button type="submit" class="btn btn-outline-primary">Click to login as Manager</button>
                         </form>
                     </div>
                 </div>
@@ -69,7 +69,7 @@
                             @csrf
                             <input type="hidden" name="email" id="email" value="employee@home.com">
                             <input type="hidden" name="password" id="password" value="P@ssw0rd!">
-                            <button type="submit" class="btn btn-outline-success">Click to login as Employee</button>
+                            <button type="submit" class="btn btn-outline-primary">Click to login as Employee</button>
                         </form>
                     </div>
                 </div>
