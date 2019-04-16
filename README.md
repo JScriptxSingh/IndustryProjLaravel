@@ -1,2 +1,3 @@
 # Industrial Project
-Laravel
+
+[numinix.jassbhamra.com](http://numinix.jassbhamra.com)

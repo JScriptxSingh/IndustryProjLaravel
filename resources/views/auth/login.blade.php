@@ -8,7 +8,7 @@
     <hr />
     
     <div class="row">
-        <form method="POST" action="{{ route('login') }}" class="col-sm-10 col-md-8 col-lg-6 mx-auto form">
+        <form method="POST" action="{{ route('login') }}" class="col-sm-10 col-md-8 col-lg-6 mr-auto form">
             @csrf
             <div class="form-group">
             <label for="email">Email address</label>
