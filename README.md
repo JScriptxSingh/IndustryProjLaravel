@@ -6,7 +6,7 @@ Hosted at [numinix.jassbhamra.com](http://numinix.jassbhamra.com)
 
 Download and install composer from [here](https://getcomposer.org/download/)
 
-```javascript
+```bash
 $ git clone https://github.com/gshawnr/IndustryProjLaravel.git
 ```
 
@@ -16,7 +16,7 @@ Set your database credentials inside the `.env` file.
 
 Run these inside project directory
 
-```javascript
+```bash
 $ composer install
 $ composer key:generate
 $ php artisan serv
