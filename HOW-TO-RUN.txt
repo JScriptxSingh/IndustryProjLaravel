@@ -1,6 +1,7 @@
-inside project directory
+INSIDE PROJECT DIRECTORY
+
 $ Copy and replace .env file with .env.example
 $ composer install
 $ php artisan key:generate
-php artisan vendor:publish --provider="Tymon\JWTAuth\Providers\LaravelServiceProvider"
+$ php artisan vendor:publish --provider="Tymon\JWTAuth\Providers\LaravelServiceProvider"
 $ php artisan serv
