@@ -7,10 +7,10 @@ use Illuminate\Http\Request;
 class HomeController extends Controller
 {
     // Require user to be authenticated to access any method.
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
+    // public function __construct()
+    // {
+    //     $this->middleware('auth');
+    // }
 
     // Redirect user based on their role.
     public function index(Request $request)

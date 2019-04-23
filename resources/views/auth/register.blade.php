@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('title')
+Register
+@endsection
+
 @section('content')
 <h1 class="display-4">Register</h1>
     <hr />
