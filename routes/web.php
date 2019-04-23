@@ -1,8 +1,7 @@
 <?php
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'NuminixController@index');
+Route::get('/processData', 'NuminixController@processData');
 
 Auth::routes();
 
