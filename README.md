@@ -18,6 +18,6 @@ Run these inside project directory
 
 ```bash
 $ composer install
-$ composer key:generate
+$ php artisan key:generate
 $ php artisan serv
 ```

@@ -6,5 +6,7 @@ use Illuminate\Http\Request;
 
 class NuminixController extends Controller
 {
-    //
+    public function index () {
+        return view('home');
+    }
 }
