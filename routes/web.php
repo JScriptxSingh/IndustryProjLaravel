@@ -1,7 +1,7 @@
 <?php
 
 Route::get('/', 'NuminixController@index');
-Route::get('/processData', 'NuminixController@processData');
+Route::post('/processData', 'NuminixController@processData');
 
 Auth::routes();
 
