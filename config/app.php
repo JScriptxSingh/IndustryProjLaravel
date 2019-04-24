@@ -234,15 +234,9 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
 
-        'JWTAuth'    => Tymon\JWTAuth\Facades\JWTAuth::class, 
-<<<<<<< HEAD
-        'JWTFactory' => Tymon\JWTAuth\Facades\JWTFactory::class,  
-        'Charts' => ConsoleTVs\Charts\Facades\Charts::class,
-=======
-        'JWTFactory' => Tymon\JWTAuth\Facades\JWTFactory::class, 
-        
-        //'Charts' => ConsoleTVs\Charts\Facades\Charts::class,
->>>>>>> 846c78ac1e552c7bb93cea9cc7ddb5e0d7a75586
+        // 'JWTAuth'    => Tymon\JWTAuth\Facades\JWTAuth::class, 
+        // 'JWTFactory' => Tymon\JWTAuth\Facades\JWTFactory::class, 
+   
 
     ],
 
