@@ -165,6 +165,10 @@ return [
         Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
         Barryvdh\Cors\ServiceProvider::class,
 
+        //chart provider
+
+        ConsoleTVs\Charts\ChartsServiceProvider::class,
+
         /*
          * Package Service Providers...
          */
@@ -231,8 +235,14 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
 
         'JWTAuth'    => Tymon\JWTAuth\Facades\JWTAuth::class, 
+<<<<<<< HEAD
         'JWTFactory' => Tymon\JWTAuth\Facades\JWTFactory::class,  
         'Charts' => ConsoleTVs\Charts\Facades\Charts::class,
+=======
+        'JWTFactory' => Tymon\JWTAuth\Facades\JWTFactory::class, 
+        
+        //'Charts' => ConsoleTVs\Charts\Facades\Charts::class,
+>>>>>>> 846c78ac1e552c7bb93cea9cc7ddb5e0d7a75586
 
     ],
 
