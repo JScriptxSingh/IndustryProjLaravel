@@ -79,9 +79,12 @@ class NuminixController extends Controller
         $lifetimeValue = $finalAmount / count($newCustomers);    
 
         $chart->labels([$monthAndYear . ' to ' .  $endDate]);
+        $chart->title('Report');
         // $chart->colors(['#ff000','	#808000']);
         $chart->dataset('Lifetime Value', 'bar', [round($lifetimeValue, 2)])->options(['backgroundColor' => '#2364F5'])
-                                                                             ->options(['color' => "#BD2755"]);    
+                                                                             ->options(['color' => "#BD2755"]);
+                                                                   
+                                                                           
 
         return view('home', [
             'displayChart' => true,
