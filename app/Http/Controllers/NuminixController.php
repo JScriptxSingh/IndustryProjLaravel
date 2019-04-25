@@ -19,19 +19,38 @@ class NuminixController extends Controller
 
         $startDateSplit = explode('-', $request->startDate);
         $startDate = $startDateSplit[0] . '-' . $startDateSplit[1] . '-01';
-        // echo $startDate . '<br>';
 
         $oneMonthAfterStart = $startDateSplit[0] . '-' . $startDateSplit[1] . '-31';
 
         $endDateSplit = explode('-', $request->endDate);
         $endDate = $endDateSplit[0] . '-' . $endDateSplit[1] . '-31';
 
-        $startDates = [];
-        $endDates = [];
+        $monthlyStartDates = [];
+        $monthlyEndDates = [];
+        $chartLabels = [];
 
-        // for ($year = $startDateSplit[0]; $year <= $endDateSplit[0]; $year ++) {
-        //     // for ($month = $startDateSplit)
-        // }
+        for ($year = intval($startDateSplit[0]); $year <= intval($endDateSplit[0]); $year ++) {
+            $monthStart = 0;
+            $monthEnd = 0;
+
+            if ($year == intval($startDateSplit[0])) {
+                $monthStart = intval($startDateSplit[1]);
+            } else {
+                $monthStart = 01;
+            }
+
+            if ($year == intval($endDateSplit[0])) {
+                $monthEnd = intval($endDateSplit[1]);
+            } else {
+                $monthEnd = 12;
+            }
+
+            for ($month = $monthStart; $month <= $monthEnd; $month ++) {
+                array_push($monthlyStartDates, strval($year) . '-' . strval($month) . '-01');
+                array_push($monthlyEndDates, strval($year) . '-' . strval($month) . '-31');
+                array_push($chartLabels, strval($year) . '-' . strval($month));
+            }
+        }
         
         $priorCustomers = DB::table('finaltable')
             ->where('date_purchased', '<', $startDate)
@@ -42,48 +61,83 @@ class NuminixController extends Controller
         $newCustomers = DB::table('finaltable')
             ->whereBetween('date_purchased', [$startDate, $oneMonthAfterStart])
             ->whereNotIn('cust_id', $priorCustomers)
-            ->whereNotIn('orders_status', ['5', '8'])
             ->distinct()
             ->orderby('cust_id')
             ->pluck('cust_id')
             ->toArray();
 
-        $newCustomerOrders = DB::table('finaltable')
-            ->whereBetween('date_purchased', [$startDate, $endDate])
+        //     // echo count($newCustomers) . '<br>';
+
+        // $newCustomerOrders = DB::table('finaltable')
+        //     ->whereBetween('date_purchased', [$startDate, $endDate])
+        //     ->whereNotIn('orders_status', [5, 8])
+        //     ->whereIn('cust_id', $newCustomers)
+        //     ->orderby('date_purchased', 'asc')
+        //     ->pluck('orderid')
+        //     ->toArray();
+
+        // // echo count($newCustomerOrders) . '<br>';
+
+        // // $orderskdjghvkd = DB::table('finaltable')
+        // //     ->whereIn('orderid', $newCustomerOrders)
+        // //     ->whereNotIn('orders_status', [5, 8])
+        // //     ->orderby('orderid')
+        // //     ->get();
+
+        // // foreach ($orderskdjghvkd as $aa) {
+        // //     // echo $aa->orderid . '<br>';
+        // // }
+
+        // $totalAmount = DB::table('finaltable')
+        //     ->whereIn('orderid', $newCustomerOrders)
+        //     ->sum('ordertotal');
+
+        // $totalTax = DB::table('finaltable')
+        //     ->whereIn('orderid', $newCustomerOrders)
+        //     ->sum('taxAmount');
+
+        // $totalShipping = DB::table('finaltable')
+        //     ->whereIn('orderid', $newCustomerOrders)
+        //     ->sum('shippingAmount');
+
+        // $finalAmount = $totalAmount - ($totalTax + $totalShipping);
+
+        // $lifetimeValue = $finalAmount / count($newCustomers);
+
+        $monthlyLifetimeValues = [];
+
+        for( $i = 0 ; $i < count($monthlyStartDates) ; $i ++) {
+            $monthlyCustomerOrders = DB::table('finaltable')
+            ->whereBetween('date_purchased', [$monthlyStartDates[$i], $monthlyEndDates[$i]])
+            ->whereNotIn('orders_status', [5, 8])
             ->whereIn('cust_id', $newCustomers)
-            ->whereNotIn('orders_status', ['5', '8'])
             ->orderby('date_purchased', 'asc')
             ->pluck('orderid')
             ->toArray();
 
-        // $orderskdjghvkd = DB::table('finaltable')
-        //     ->whereIn('orderid', $newCustomerOrders)
-        //     ->get();
-
-        // foreach ($newCustomers as $aa) {
-        //     echo $aa . '<br>';
-        // }
-
-        $totalAmount = DB::table('finaltable')
-            ->whereIn('orderid', $newCustomerOrders)
+        $monthlyAmount = DB::table('finaltable')
+            ->whereIn('orderid', $monthlyCustomerOrders)
             ->sum('ordertotal');
 
-            echo $totalAmount;
-
-        $totalTax = DB::table('finaltable')
-            ->whereIn('orderid', $newCustomerOrders)
+        $monthlyTax = DB::table('finaltable')
+            ->whereIn('orderid', $monthlyCustomerOrders)
             ->sum('taxAmount');
 
-        $totalShipping = DB::table('finaltable')
-            ->whereIn('orderid', $newCustomerOrders)
+        $monthlyShipping = DB::table('finaltable')
+            ->whereIn('orderid', $monthlyCustomerOrders)
             ->sum('shippingAmount');
 
-        $finalAmount = $totalAmount - ($totalTax + $totalShipping);
+        $monthlyFinal = $monthlyAmount - ($monthlyTax + $monthlyShipping);
 
-        $lifetimeValue = $finalAmount / count($newCustomers);
+        array_push($monthlyLifetimeValues, ($monthlyFinal / count($newCustomers)));
 
-        $chart->labels([$startDate . ' to ' . $endDate]);
-        $chart->dataset('Lifetime Value', 'bar', [round($lifetimeValue, 2)]);
+        // $lifetimeValue = $monthlyFinal / count($newCustomers);
+        }
+
+        // $chart->labels([$startDate . ' to ' . $endDate]);
+        // $chart->dataset('Lifetime Value', 'bar', [round($lifetimeValue, 2)]);
+        $chart->labels($chartLabels);
+        $chart->dataset('Lifetime Values', 'line', $monthlyLifetimeValues);
 
         return view('home', [
             'displayChart' => true,
