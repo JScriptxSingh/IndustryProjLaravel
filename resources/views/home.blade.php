@@ -22,9 +22,11 @@ Welcome
         </div>
     </form>
     
-    @if($displayChart != null)
-        <canvas class="myChart" id="myChart"></canvas>
+    @if ($displayChart)
+        <div class="myChart">{!! $chart->container() !!}</div>
+        {!! $chart->script() !!}
     @endif
+
 @endsection
 
 @section('js')
