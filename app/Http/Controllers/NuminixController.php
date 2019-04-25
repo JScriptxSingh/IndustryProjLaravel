@@ -82,8 +82,12 @@ class NuminixController extends Controller
         $chart->title('Report');
         // $chart->colors(['#ff000','	#808000']);
         $chart->dataset('Lifetime Value', 'bar', [round($lifetimeValue, 2)])->options(['backgroundColor' => '#2364F5'])
-                                                                             ->options(['color' => "#BD2755"]);
-                                                                   
+                                                                             ->options(['borderColor' => "#01b8aa"])
+                                                                             ->options(['hoverBackgroundColor'=> 'rgba(102,0,153,0.2)'])
+                                                                             ->options(['hoverBorderColor' =>'#d76565']);
+                                                                            //  ->options(['data' => ]);
+                                                                            //  ->options(['width'=>10]);
+                                                                            //  ->options(['fontColor' => '#ff0000']);
                                                                            
 
         return view('home', [
