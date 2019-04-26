@@ -8,13 +8,22 @@ use App\Charts\DefaultChart;
 
 class NuminixController extends Controller
 {
-    public function index () {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+    public function index (Request $request) {
+        $request->user()->authorizeRoles(['manager']);
+
         return view('home', [
             'displayChart' => false
         ]);
     }
 
     public function processData (Request $request) {
+        $request->user()->authorizeRoles(['manager']);
+
         $chart = new DefaultChart;
 
         $startDateSplit = explode('-', $request->startDate);

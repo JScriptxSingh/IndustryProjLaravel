@@ -51,8 +51,8 @@ Login
         </form>
 
         <div class="col-lg-4 col-md-8 col-sm-12 mx-auto row">
-            <div class="card mt-4 mt-lg-0">
-                <h5 class="card-header">Manager Login</h5>
+            <div class="card mt-4 mt-lg-0 mb-0 mb-lg-5">
+                <h5 class="card-header">Demo Login</h5>
                 <div class="card-body">
                     <h5 class="card-title">manager@home.com</h5>
                     <p class="card-text">P@ssw0rd!</p>
@@ -60,20 +60,7 @@ Login
                         @csrf
                         <input type="hidden" name="email" id="email" value="manager@home.com">
                         <input type="hidden" name="password" id="password" value="P@ssw0rd!">
-                        <button type="submit" class="btn btn-outline-primary">Click to login as Manager</button>
-                    </form>
-                </div>
-            </div>
-            <div class="card mt-4">
-                <h5 class="card-header">Employee Login</h5>
-                <div class="card-body">
-                    <h5 class="card-title">employee@home.com</h5>
-                    <p class="card-text">P@ssw0rd!</p>
-                    <form method="POST" action="{{ route('login') }}">
-                        @csrf
-                        <input type="hidden" name="email" id="email" value="employee@home.com">
-                        <input type="hidden" name="password" id="password" value="P@ssw0rd!">
-                        <button type="submit" class="btn btn-outline-primary">Click to login as Employee</button>
+                        <button type="submit" class="btn btn-outline-primary">Click to login</button>
                     </form>
                 </div>
             </div>
