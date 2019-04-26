@@ -5,7 +5,10 @@
 @endsection
 
 @section('content')
-  <div class="jumbotron">
-      <h1 class="display-4">Welcome</h1>
-  </div>
+<div class="banner">
+
+</div>
+<div class="content-wrapper">
+  <img class="logo" src="../logo.svg"/>
+</div>
 @endsection
