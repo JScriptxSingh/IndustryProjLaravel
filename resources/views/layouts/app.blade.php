@@ -33,14 +33,7 @@
                         @if( Auth::user()->hasrole('manager') )
                         <li>
                             <a class="nav-link {{ Request::is('home/manage' , 'home/manage/*') ? 'active-link' : '' }}"
-                                href="/home/manage">Manager</a>
-                        </li>
-                        @endif
-
-                        @if(Auth::user()->hasAnyRole(['manager', 'employee']))
-                        <li>
-                            <a class="nav-link {{ Request::is('home/employee' , 'home/employee/*') ? 'active-link' : '' }}"
-                                href="/home/employee">Employee</a>
+                                href="/home/manage">Reporting</a>
                         </li>
                         @endif
                         @endguest
