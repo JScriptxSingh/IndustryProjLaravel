@@ -1,11 +1,11 @@
 <?php
 
-Route::get('/', 'NuminixController@index');
+Route::get('/', function (){
+    return view('welcome');
+});
 Route::post('/processData', 'NuminixController@processData');
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/home/manage', 'HomeController@manage');
-Route::get('/home/employee', 'HomeController@employee');
-Route::get('/charts', 'ChartsController@index');
+Route::get('/home/manage', 'NuminixController@index');
