@@ -146,8 +146,10 @@ class NuminixController extends Controller
         // $chart->labels([$startDate . ' to ' . $endDate]);
         // $chart->dataset('Lifetime Value', 'bar', [round($lifetimeValue, 2)]);
         $chart->labels($chartLabels);
-        $chart->dataset('Lifetime Values', 'line', $monthlyLifetimeValues);
-
+        $chart->dataset('Lifetime Values', 'line', $monthlyLifetimeValues)->options(['backgroundColor' => '#7fb800'])
+                                                                          ->options(['borderColor' => "#01b8aa"])
+                                                                         ->options(['pointHoverBackgroundColor'=> '#7fb800'])
+                                                                         ->options(['hoverBorderColor' =>'#d76565']);
         return view('home', [
             'displayChart' => true,
             'chart' => $chart
