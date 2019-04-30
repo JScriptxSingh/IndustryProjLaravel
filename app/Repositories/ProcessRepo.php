@@ -5,6 +5,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Charts\DefaultChart;
+use Illuminate\Support\Facades\Config;
 
 class ProcessRepo
 {
@@ -49,7 +50,6 @@ class ProcessRepo
             ->toArray();
 
         $countryFilter = '';
-
         if ($request->countryFilter == 'all') {
             $countryFilter = '%';
         } else {
@@ -67,6 +67,7 @@ class ProcessRepo
 
         $yearlyLifetimes = [];
 
+        $totals = 0;
 
         if (count($newCustomers) > 0) {
             for ($i = 0 ; $i < count($yearlyStartings) ; $i ++) {
@@ -84,9 +85,15 @@ class ProcessRepo
                 ->get();
 
                 $yearlyFinal = collect($yearlyTotals)->sum('ordertotal') - (collect($yearlyTotals)->sum('taxAmount') + collect($yearlyTotals)->sum('shippingAmount'));
+
+                $totals += collect($yearlyTotals)->sum('ordertotal');
+
                 array_push($yearlyLifetimes, round($yearlyFinal / count($newCustomers), 2));
             }
         }
+
+        Config::set('overallAverage.total', $totals);
+        Config::set('overallAverage.newCustomers', count($newCustomers));
 
         $chart->labels($chartLabels)
               ->dataset('Average Lifetime Value ($)', $request->chartType, $yearlyLifetimes)
