@@ -5,14 +5,6 @@ Welcome
 @endsection
 
 @section('content')
-<head>
-<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-<script src="../js/animation.js"></script>
-
-
-</head>
 <!------ Include the above in your HEAD tag ---------->
 <div class="banner">
 </div>
@@ -20,6 +12,7 @@ Welcome
 
 <div class="content-wrapper">
   <img class="logo" src="../logo.svg"/>
+  <h1 class="landingTitle focus-in-contract-bc">Numinix</h1>
   <div class="startButton">
   <div class="row">
         <div class="col-sm-3">
