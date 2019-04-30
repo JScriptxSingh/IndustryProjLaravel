@@ -17,7 +17,26 @@ Welcome
             <label for="endDate">End Date</label>
             <input id="endDate" type="date" class="form-control" name="endDate" required>
             </div>
-        
+
+            <div class="form-group col-md-5">
+            <label for="countryFilter">Filter by Country</label>
+            <select id="countryFilter" name="countryFilter" class="custom-select">
+                <option value="all" selected>All</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+            </div>
+
+            <div class="form-group col-md-5">
+            <label for="chartType">Chart Type</label>
+            <select id="chartType" name="chartType" class="custom-select">
+                <option value="bar" selected>Bar</option>
+                <option value="line">Line</option>
+            </select>
+            </div>
+
             <div class="form-group col-md-2 align-self-end"><button class="btn btn-outline-primary" type="submit">Submit</button></div>
         </div>
     </form>

@@ -116,13 +116,11 @@ class ProcessRepo
         }
 
         $chart->labels($chartLabels)
-              ->dataset('Lifetime Values', 'bar', $yearlyLifetimes)
+              ->dataset('Lifetime Values ($)', $request->chartType, $yearlyLifetimes)
               ->options(['backgroundColor' => 'rgba(107, 185, 240, 0.6)'])
               ->options(['borderColor' => "#228CDB"])
               ->options(['pointHoverBackgroundColor'=> '#7fb800'])
               ->options(['hoverBorderColor' =>'rgba(25, 181, 254, 1)']);
-
-            
 
         return $chart;
     }
