@@ -50,8 +50,7 @@ class ProcessRepo
 
         $countryFilter = '';
 
-        if($request->countryFilter == 'all')
-        {
+        if ($request->countryFilter == 'all') {
             $countryFilter = '%';
         } else {
             $countryFilter = $request->countryFilter;
@@ -68,8 +67,10 @@ class ProcessRepo
 
         $yearlyLifetimes = [];
 
-        for ($i = 0 ; $i < count($yearlyStartings) ; $i ++) {
-            $yearlyCustomerOrders = DB::table('finaltable')
+
+        if (count($newCustomers) > 0) {
+            for ($i = 0 ; $i < count($yearlyStartings) ; $i ++) {
+                $yearlyCustomerOrders = DB::table('finaltable')
                 ->whereBetween('date_purchased', [$yearlyStartings[$i], $yearlyEndings[$i]])
                 ->whereNotIn('orders_status', [5, 8])
                 ->whereIn('cust_id', $newCustomers)
@@ -77,20 +78,18 @@ class ProcessRepo
                 ->pluck('orderid')
                 ->toArray();
 
-            $yearlyTotals = DB::table('finaltable')
+                $yearlyTotals = DB::table('finaltable')
                 ->select('ordertotal', 'taxAmount', 'shippingAmount')
                 ->whereIn('orderid', $yearlyCustomerOrders)
                 ->get();
 
-            $yearlyFinal = collect($yearlyTotals)->sum('ordertotal') - (collect($yearlyTotals)->sum('taxAmount') + collect($yearlyTotals)->sum('shippingAmount'));
-
-            if (count($newCustomers) > 0) {
-                array_push($yearlyLifetimes, round($yearlyFinal / count($newCustomers),2));
+                $yearlyFinal = collect($yearlyTotals)->sum('ordertotal') - (collect($yearlyTotals)->sum('taxAmount') + collect($yearlyTotals)->sum('shippingAmount'));
+                array_push($yearlyLifetimes, round($yearlyFinal / count($newCustomers), 2));
             }
         }
 
         $chart->labels($chartLabels)
-              ->dataset('Lifetime Values ($)', $request->chartType, $yearlyLifetimes)
+              ->dataset('Average Lifetime Value ($)', $request->chartType, $yearlyLifetimes)
               ->options(['backgroundColor' => 'rgba(107, 185, 240, 0.6)'])
               ->options(['borderColor' => "#228CDB"])
               ->options(['pointHoverBackgroundColor'=> '#7fb800'])
