@@ -22,10 +22,11 @@ Welcome
             <label for="countryFilter">Filter by Country</label>
             <select id="countryFilter" name="countryFilter" class="custom-select">
                 <option value="all" selected>All</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
+                @foreach ($countries as $country)
+                    @if (strlen($country) > 0)
+                        <option value="{{ $country }}">{{ $country }}</option>
+                    @endif
+                @endforeach
             </select>
             </div>
 

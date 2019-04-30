@@ -43,56 +43,28 @@ class ProcessRepo
         }
     
         $priorCustomers = DB::table('finaltable')
-        ->where('date_purchased', '<', date_format($startDate, "Y-m-d"))
-        ->distinct()
-        ->pluck('cust_id')
-        ->toArray();
+            ->where('date_purchased', '<', date_format($startDate, "Y-m-d"))
+            ->distinct()
+            ->pluck('cust_id')
+            ->toArray();
+
+        $countryFilter = '';
+
+        if($request->countryFilter == 'all')
+        {
+            $countryFilter = '%';
+        } else {
+            $countryFilter = $request->countryFilter;
+        }
     
         $newCustomers = DB::table('finaltable')
-        ->whereBetween('date_purchased', [date_format($startDate, "Y-m-d"), date_format($firstMonthEnd, "Y-m-d")])
-        ->whereNotIn('cust_id', $priorCustomers)
-        ->distinct()
-        ->orderby('cust_id')
-        ->pluck('cust_id')
-        ->toArray();
-
-            // echo count($newCustomers) . '<br>';
-
-        // $newCustomerOrders = DB::table('finaltable')
-        //     ->whereBetween('date_purchased', [$startDate, $endDate])
-        //     ->whereNotIn('orders_status', [5, 8])
-        //     ->whereIn('cust_id', $newCustomers)
-        //     ->orderby('date_purchased', 'asc')
-        //     ->pluck('orderid')
-        //     ->toArray();
-
-        // echo count($newCustomerOrders) . '<br>';
-
-        // $orderskdjghvkd = DB::table('finaltable')
-        //     ->whereIn('orderid', $newCustomerOrders)
-        //     ->whereNotIn('orders_status', [5, 8])
-        //     ->orderby('orderid')
-        //     ->get();
-
-        // foreach ($orderskdjghvkd as $aa) {
-        //     // echo $aa->orderid . '<br>';
-        // }
-
-        // $totalAmount = DB::table('finaltable')
-        //     ->whereIn('orderid', $newCustomerOrders)
-        //     ->sum('ordertotal');
-
-        // $totalTax = DB::table('finaltable')
-        //     ->whereIn('orderid', $newCustomerOrders)
-        //     ->sum('taxAmount');
-
-        // $totalShipping = DB::table('finaltable')
-        //     ->whereIn('orderid', $newCustomerOrders)
-        //     ->sum('shippingAmount');
-
-        // $finalAmount = $totalAmount - ($totalTax + $totalShipping);
-
-        // $lifetimeValue = $finalAmount / count($newCustomers);
+            ->whereBetween('date_purchased', [date_format($startDate, "Y-m-d"), date_format($firstMonthEnd, "Y-m-d")])
+            ->whereNotIn('cust_id', $priorCustomers)
+            ->where('customers_country', 'like', $countryFilter)
+            ->distinct()
+            ->orderby('cust_id')
+            ->pluck('cust_id')
+            ->toArray();
 
         $yearlyLifetimes = [];
 
@@ -112,7 +84,9 @@ class ProcessRepo
 
             $yearlyFinal = collect($yearlyTotals)->sum('ordertotal') - (collect($yearlyTotals)->sum('taxAmount') + collect($yearlyTotals)->sum('shippingAmount'));
 
-            array_push($yearlyLifetimes, round($yearlyFinal / count($newCustomers),2));
+            if (count($newCustomers) > 0) {
+                array_push($yearlyLifetimes, round($yearlyFinal / count($newCustomers),2));
+            }
         }
 
         $chart->labels($chartLabels)
