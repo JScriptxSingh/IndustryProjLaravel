@@ -18,20 +18,35 @@ class NuminixController extends Controller
     {
         $request->user()->authorizeRoles(['manager']);
 
+        $countries = DB::table('finaltable')
+        ->select('customers_country')        
+        ->distinct()
+        ->pluck('customers_country')
+        ->toArray();
+
         return view('home', [
-            'displayChart' => false
+            'displayChart' => false,
+            'countries' => $countries
         ]);
     }
 
     public function processData(Request $request)
     {
         $request->user()->authorizeRoles(['manager']);
+
+        $countries = DB::table('finaltable')
+        ->select('customers_country')        
+        ->distinct()
+        ->pluck('customers_country')
+        ->toArray();
+
         $processRepo =  new ProcessRepo();
         $data = $processRepo-> ProcessDatas($request);
         
         return view('home', [
             'displayChart' => true,
-            'chart' => $data
+            'chart' => $data,
+            'countries' => $countries
         ]);
     }
 }
