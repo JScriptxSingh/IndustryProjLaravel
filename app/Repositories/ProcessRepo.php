@@ -49,12 +49,14 @@ class ProcessRepo{
         }
     }
     
+    // Get all customers from beginning of time before a start date.
     $priorCustomers = DB::table('finaltable')
         ->where('date_purchased', '<', $startDate)
         ->distinct()
         ->pluck('cust_id')
         ->toArray();
     
+    // Get customers who bought in current month but never purchased anything before.
     $newCustomers = DB::table('finaltable')
         ->whereBetween('date_purchased', [$startDate, $oneMonthAfterStart])
         ->whereNotIn('cust_id', $priorCustomers)
