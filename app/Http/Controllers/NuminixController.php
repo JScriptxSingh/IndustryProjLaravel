@@ -28,7 +28,10 @@ class NuminixController extends Controller
             'displayChart' => false,
             'countries' => $countries,
             'oldStartDate' => '',
-            'oldEndDate' => ''
+            'oldEndDate' => '',
+            'totalValue' => '',
+            'newCustomers' => '',
+            'overallAverage' => ''
         ]);
     }
 
