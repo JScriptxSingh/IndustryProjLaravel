@@ -5,7 +5,9 @@
 @endsection
 
 @section('content')
-    <form method="POST" action="/processData" class="border border-primary rounded-lg col-sm-12 col-md-10 col-lg-7 mx-auto mb-4 p-4">
+
+<div class="row">
+    <form method="POST" action="/processData" class="border border-primary rounded-lg col-11 col-sm-12 col-md-10 col-lg-7 mx-auto mb-4 p-4">
                 @csrf
         <div class="row">
             <div class="form-group col-md-6">
@@ -52,6 +54,31 @@
             <div class="auto-col mx-auto"><button class="btn btn-outline-success px-5 text-uppercase" type="submit">Submit</button></div>
         </div>
     </form>
+
+    @if($totalValue != null)
+        <div class="col-12 col-sm-12 col-md-10 col-lg-4 mx-auto">
+            <div class="jumbotron px-2 py-1 pt-3 mb-4 bg-white border border-primary rounded-lg">
+                <div class="container d-flex flex-column">
+                    <h3 class="mb-0">
+                        $ {{ number_format( floatval( $totalValue ), 2, '.', ',') }}
+                    </h3>
+                    <p class="lead">in total</p>
+
+                    <h3 class="mb-0">
+                        {{ $newCustomers }}
+                    </h3>
+                    <p class="lead">customers acquired</p>
+
+                    <h3 class="mb-0">
+                        $ {{ number_format( floatval( $overallAverage ), 2, '.', ',') }}
+                    </h3>
+                    <p class="lead">average per customer</p>
+                </div>
+            </div>
+        </div>
+    @endif
+
+    </div>
     
     @if ($displayChart)
         <div class="myChart">{!! $chart->container() !!}</div>
