@@ -5,9 +5,9 @@ Login
 @endsection
 
 @section('content')
-    <h1 class="display-4">
+    <h3 class="display-4">
         Login
-    </h1>
+    </h3>
 
     <hr />
     

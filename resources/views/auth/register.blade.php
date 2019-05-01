@@ -5,9 +5,10 @@ Register
 @endsection
 
 @section('content')
-<h1 class="display-4">Register</h1>
+<div class="container">
+  <h3 class="display-4">Register</h3>
     <hr />
-    <div class="row">
+    <div class="row justify-content-center">
       <form method="POST" action="{{ route('register') }}" class="col-sm-10 col-md-8 col-lg-8 form">
                         @csrf
 
@@ -68,4 +69,5 @@ Register
         <button type="submit" class="btn btn-outline-success">Register</button>
       </form>
     </div>
+  </div>
 @endsection
