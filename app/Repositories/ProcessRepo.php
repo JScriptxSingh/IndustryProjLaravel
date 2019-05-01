@@ -5,15 +5,12 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Charts\DefaultChart;
-use Illuminate\Support\Facades\Config;
+use App\DataObject;
 
 class ProcessRepo
 {
     public function processDatas(Request $request)
     {
-        // Create chart variable.
-        $chart = new DefaultChart;
-
         // Creating php-Date variable for starting date using form input.
         $startDate = date_create(explode('-', $request->startDate)[0] . '-' . explode('-', $request->startDate)[1] . '-01');
 
@@ -106,9 +103,8 @@ class ProcessRepo
             }
         }
 
-        // Setting overallAverage in config file.
-        Config::set('overallAverage.total', $totals);
-        Config::set('overallAverage.newCustomers', count($newCustomers));
+        // Create chart variable.
+        $chart = new DefaultChart;
 
         // Configuring chart object and assigning gathered data to it.
         $chart->labels($chartLabels)
@@ -118,6 +114,13 @@ class ProcessRepo
               ->options(['pointHoverBackgroundColor'=> '#7fb800'])
               ->options(['hoverBorderColor' =>'rgba(25, 181, 254, 1)']);
 
-        return $chart;
+        // Create data object that will be returned with required data to controller
+        $dataObject = new DataObject;
+
+        $dataObject->chart = $chart;
+        $dataObject->totalValue = $totals;
+        $dataObject->newCustomers = count($newCustomers);
+
+        return $dataObject;
     }
 }
