@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Charts\DefaultChart;
 use App\Repositories\processRepo;
-use Illuminate\Support\Facades\Config;
 
 class NuminixController extends Controller
 {
@@ -27,7 +26,9 @@ class NuminixController extends Controller
 
         return view('home', [
             'displayChart' => false,
-            'countries' => $countries
+            'countries' => $countries,
+            'oldStartDate' => '',
+            'oldEndDate' => ''
         ]);
     }
 
@@ -43,16 +44,16 @@ class NuminixController extends Controller
 
         $processRepo =  new ProcessRepo();
         $data = $processRepo->ProcessDatas($request);
-
-        echo 'total = ' . config::get('overallAverage.total') . '<br>';
-        echo 'newCu = ' . Config::get('overallAverage.newCustomers') . '<br>';
-        echo 'avera = ' . config::get('overallAverage.total') / config::get('overallAverage.newCustomers');
         
         return view('home', [
             'displayChart' => true,
-            'chart' => $data,
-            'overallAverage' => config('overallAverage'),
-            'countries' => $countries
+            'chart' => $data->chart,
+            'totalValue' => $data->totalValue,
+            'newCustomers' => $data->newCustomers,
+            'overallAverage' => ($data->totalValue / $data->newCustomers),
+            'countries' => $countries,
+            'oldStartDate' => $request->startDate,
+            'oldEndDate' => $request->endDate
         ]);
     }
 }
