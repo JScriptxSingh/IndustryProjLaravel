@@ -27,8 +27,8 @@ class NuminixController extends Controller
         return view('home', [
             'displayChart' => false,
             'countries' => $countries,
-            'oldStartDate' => '55',
-            'oldEndDate' => '7676'
+            'oldStartDate' => '',
+            'oldEndDate' => ''
         ]);
     }
 

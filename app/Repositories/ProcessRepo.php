@@ -12,14 +12,14 @@ class ProcessRepo
     public function processDatas(Request $request)
     {
         // Creating php-Date variable for starting date using form input.
-        $startDate = date_create(explode('-', $request->startDate)[0] . '-' . explode('-', $request->startDate)[1] . '-01');
+        $startDate = date_create(explode('-', $request->startDate)[0] . '-' . explode('-', $request->startDate)[1] . '-' . explode('-', $request->startDate)[2]);
 
         // Creating start month ending variable by performing php Date calculations.
-        $firstMonthEnd = date_add(date_add(date_create(explode('-', $request->startDate)[0] . '-' . explode('-', $request->startDate)[1] . '-01'), date_interval_create_from_date_string('1 month')), date_interval_create_from_date_string('-1 day'));
+        $firstMonthEnd = date_add(date_add(date_create(explode('-', $request->startDate)[0] . '-' . explode('-', $request->startDate)[1] . '-' . explode('-', $request->startDate)[2]), date_interval_create_from_date_string('1 month')), date_interval_create_from_date_string('0 day'));
 
         // Creating php-Date variable for ending date using form input.
-        $tempEndDate = date_create(explode('-', $request->endDate)[0] . '-' . explode('-', $request->endDate)[1] . '-01');
-        $endDate = date_add(date_add($tempEndDate, date_interval_create_from_date_string('1 month')), date_interval_create_from_date_string('-1 day'));
+        $tempEndDate = date_create(explode('-', $request->endDate)[0] . '-' . explode('-', $request->endDate)[1] . '-' . explode('-', $request->endDate)[2]);
+        $endDate = date_add(date_add($tempEndDate, date_interval_create_from_date_string('1 month')), date_interval_create_from_date_string('0 day'));
 
         // Defining arrays for startings and endings of years.
         $yearlyStartings = [];
@@ -97,7 +97,7 @@ class ProcessRepo
                 // Calculating yearly totals.
                 $yearlyFinal = collect($yearlyTotals)->sum('ordertotal') - (collect($yearlyTotals)->sum('taxAmount') + collect($yearlyTotals)->sum('shippingAmount'));
 
-                $totals += collect($yearlyTotals)->sum('ordertotal');
+                $totals += $yearlyFinal;
 
                 array_push($yearlyLifetimes, round($yearlyFinal / count($newCustomers), 2));
             }
@@ -120,6 +120,10 @@ class ProcessRepo
         $dataObject->chart = $chart;
         $dataObject->totalValue = $totals;
         $dataObject->newCustomers = count($newCustomers);
+
+        echo $dataObject->totalValue . '<br>';
+        echo $dataObject->newCustomers . '<br>';
+        echo $dataObject->totalValue / $dataObject->newCustomers;
 
         return $dataObject;
     }
