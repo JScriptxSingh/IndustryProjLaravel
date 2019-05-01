@@ -5,6 +5,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Charts\DefaultChart;
+use Illuminate\Support\Facades\Config;
 
 class ProcessRepo
 {
@@ -43,61 +44,34 @@ class ProcessRepo
         }
     
         $priorCustomers = DB::table('finaltable')
-        ->where('date_purchased', '<', date_format($startDate, "Y-m-d"))
-        ->distinct()
-        ->pluck('cust_id')
-        ->toArray();
+            ->where('date_purchased', '<', date_format($startDate, "Y-m-d"))
+            ->distinct()
+            ->pluck('cust_id')
+            ->toArray();
+
+        $countryFilter = '';
+        if ($request->countryFilter == 'all') {
+            $countryFilter = '%';
+        } else {
+            $countryFilter = $request->countryFilter;
+        }
     
         $newCustomers = DB::table('finaltable')
-        ->whereBetween('date_purchased', [date_format($startDate, "Y-m-d"), date_format($firstMonthEnd, "Y-m-d")])
-        ->whereNotIn('cust_id', $priorCustomers)
-        ->distinct()
-        ->orderby('cust_id')
-        ->pluck('cust_id')
-        ->toArray();
-
-            // echo count($newCustomers) . '<br>';
-
-        // $newCustomerOrders = DB::table('finaltable')
-        //     ->whereBetween('date_purchased', [$startDate, $endDate])
-        //     ->whereNotIn('orders_status', [5, 8])
-        //     ->whereIn('cust_id', $newCustomers)
-        //     ->orderby('date_purchased', 'asc')
-        //     ->pluck('orderid')
-        //     ->toArray();
-
-        // echo count($newCustomerOrders) . '<br>';
-
-        // $orderskdjghvkd = DB::table('finaltable')
-        //     ->whereIn('orderid', $newCustomerOrders)
-        //     ->whereNotIn('orders_status', [5, 8])
-        //     ->orderby('orderid')
-        //     ->get();
-
-        // foreach ($orderskdjghvkd as $aa) {
-        //     // echo $aa->orderid . '<br>';
-        // }
-
-        // $totalAmount = DB::table('finaltable')
-        //     ->whereIn('orderid', $newCustomerOrders)
-        //     ->sum('ordertotal');
-
-        // $totalTax = DB::table('finaltable')
-        //     ->whereIn('orderid', $newCustomerOrders)
-        //     ->sum('taxAmount');
-
-        // $totalShipping = DB::table('finaltable')
-        //     ->whereIn('orderid', $newCustomerOrders)
-        //     ->sum('shippingAmount');
-
-        // $finalAmount = $totalAmount - ($totalTax + $totalShipping);
-
-        // $lifetimeValue = $finalAmount / count($newCustomers);
+            ->whereBetween('date_purchased', [date_format($startDate, "Y-m-d"), date_format($firstMonthEnd, "Y-m-d")])
+            ->whereNotIn('cust_id', $priorCustomers)
+            ->where('customers_country', 'like', $countryFilter)
+            ->distinct()
+            ->orderby('cust_id')
+            ->pluck('cust_id')
+            ->toArray();
 
         $yearlyLifetimes = [];
 
-        for ($i = 0 ; $i < count($yearlyStartings) ; $i ++) {
-            $yearlyCustomerOrders = DB::table('finaltable')
+        $totals = 0;
+
+        if (count($newCustomers) > 0) {
+            for ($i = 0 ; $i < count($yearlyStartings) ; $i ++) {
+                $yearlyCustomerOrders = DB::table('finaltable')
                 ->whereBetween('date_purchased', [$yearlyStartings[$i], $yearlyEndings[$i]])
                 ->whereNotIn('orders_status', [5, 8])
                 ->whereIn('cust_id', $newCustomers)
@@ -105,24 +79,28 @@ class ProcessRepo
                 ->pluck('orderid')
                 ->toArray();
 
-            $yearlyTotals = DB::table('finaltable')
+                $yearlyTotals = DB::table('finaltable')
                 ->select('ordertotal', 'taxAmount', 'shippingAmount')
                 ->whereIn('orderid', $yearlyCustomerOrders)
                 ->get();
 
-            $yearlyFinal = collect($yearlyTotals)->sum('ordertotal') - (collect($yearlyTotals)->sum('taxAmount') + collect($yearlyTotals)->sum('shippingAmount'));
+                $yearlyFinal = collect($yearlyTotals)->sum('ordertotal') - (collect($yearlyTotals)->sum('taxAmount') + collect($yearlyTotals)->sum('shippingAmount'));
 
-            array_push($yearlyLifetimes, round($yearlyFinal / count($newCustomers),2));
+                $totals += collect($yearlyTotals)->sum('ordertotal');
+
+                array_push($yearlyLifetimes, round($yearlyFinal / count($newCustomers), 2));
+            }
         }
 
+        Config::set('overallAverage.total', $totals);
+        Config::set('overallAverage.newCustomers', count($newCustomers));
+
         $chart->labels($chartLabels)
-              ->dataset('Lifetime Values', 'bar', $yearlyLifetimes)
+              ->dataset('Average Lifetime Value ($)', $request->chartType, $yearlyLifetimes)
               ->options(['backgroundColor' => 'rgba(107, 185, 240, 0.6)'])
               ->options(['borderColor' => "#228CDB"])
               ->options(['pointHoverBackgroundColor'=> '#7fb800'])
               ->options(['hoverBorderColor' =>'rgba(25, 181, 254, 1)']);
-
-            
 
         return $chart;
     }
