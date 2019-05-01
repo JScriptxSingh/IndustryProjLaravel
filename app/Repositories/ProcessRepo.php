@@ -13,12 +13,19 @@ class ProcessRepo
     {
         $chart = new DefaultChart;
 
-        $startDate = date_create(explode('-', $request->startDate)[0] . '-' . explode('-', $request->startDate)[1] . '-01');
+        //$startDate = date_create(explode('-', $request->startDate)[0] . '-' . explode('-', $request->startDate)[1] . '-01');
 
-        $firstMonthEnd = date_add(date_add(date_create(explode('-', $request->startDate)[0] . '-' . explode('-', $request->startDate)[1] . '-01'), date_interval_create_from_date_string('1 month')), date_interval_create_from_date_string('-1 day'));
+        $startDate = date_create(explode('-', $request->startDate)[0] . '-' . explode('-', $request->startDate)[1] . '-' . explode('-', $request->startDate)[2]);
 
-        $tempEndDate = date_create(explode('-', $request->endDate)[0] . '-' . explode('-', $request->endDate)[1] . '-01');
-        $endDate = date_add(date_add($tempEndDate, date_interval_create_from_date_string('1 month')), date_interval_create_from_date_string('-1 day'));
+        //$firstMonthEnd = date_add(date_add(date_create(explode('-', $request->startDate)[0] . '-' . explode('-', $request->startDate)[1] . '-01'), date_interval_create_from_date_string('1 month')), date_interval_create_from_date_string('-1 day'));
+
+        $firstMonthEnd = date_add(date_add(date_create(explode('-', $request->startDate)[0] . '-' . explode('-', $request->startDate)[1] . '-' . explode('-', $request->startDate)[2]), date_interval_create_from_date_string('1 month')), date_interval_create_from_date_string('0 day'));
+
+        // $tempEndDate = date_create(explode('-', $request->endDate)[0] . '-' . explode('-', $request->endDate)[1] . '-01');
+        // $endDate = date_add(date_add($tempEndDate, date_interval_create_from_date_string('1 month')), date_interval_create_from_date_string('-1 day'));
+
+        $tempEndDate = date_create(explode('-', $request->endDate)[0] . '-' . explode('-', $request->endDate)[1] . '-' . explode('-', $request->endDate)[2]);
+        $endDate = date_add(date_add($tempEndDate, date_interval_create_from_date_string('1 month')), date_interval_create_from_date_string('0 day'));
 
         $yearlyStartings = [];
         $yearlyEndings = [];
@@ -65,6 +72,9 @@ class ProcessRepo
             ->pluck('cust_id')
             ->toArray();
 
+            //echo implode(",", $newCustomers);
+            //echo implode(",", $priorCustomers);
+
         $yearlyLifetimes = [];
 
         $totals = 0;
@@ -86,7 +96,8 @@ class ProcessRepo
 
                 $yearlyFinal = collect($yearlyTotals)->sum('ordertotal') - (collect($yearlyTotals)->sum('taxAmount') + collect($yearlyTotals)->sum('shippingAmount'));
 
-                $totals += collect($yearlyTotals)->sum('ordertotal');
+                //$totals += collect($yearlyTotals)->sum('ordertotal');
+                $totals += $yearlyFinal;
 
                 array_push($yearlyLifetimes, round($yearlyFinal / count($newCustomers), 2));
             }
