@@ -112,7 +112,7 @@ class ProcessRepo
               ->options(['backgroundColor' => 'rgba(107, 185, 240, 0.6)'])
               ->options(['borderColor' => "#228CDB"])
               ->options(['pointHoverBackgroundColor'=> '#7fb800'])
-              ->options(['hoverBorderColor' =>'rgba(25, 181, 54, 1)']);
+              ->options(['hoverBorderColor' =>'rgba(25, 181, 254, 1)']);
 
         // Create data object that will be returned with required data to controller
         $dataObject = new DataObject;
