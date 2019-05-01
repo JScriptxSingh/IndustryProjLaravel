@@ -121,10 +121,6 @@ class ProcessRepo
         $dataObject->totalValue = $totals;
         $dataObject->newCustomers = count($newCustomers);
 
-        echo $dataObject->totalValue . '<br>';
-        echo $dataObject->newCustomers . '<br>';
-        echo $dataObject->totalValue / $dataObject->newCustomers;
-
         return $dataObject;
     }
 }
