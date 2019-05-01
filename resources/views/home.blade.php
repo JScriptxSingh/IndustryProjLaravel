@@ -10,12 +10,20 @@
         <div class="row">
             <div class="form-group col-md-6">
                 <label for="startDate">Start Date</label>
-                <input id="startDate" type="date" class="form-control" name="startDate" required autofocus>
+                @if ($oldStartDate != null)
+                    <input id="startDate" type="date" class="form-control" name="startDate" value="{{ $oldStartDate }}" required autofocus>
+                @else
+                    <input id="startDate" type="date" class="form-control" name="startDate" required autofocus>
+                @endif
             </div>
             
             <div class="form-group col-md-6">
                 <label for="endDate">End Date</label>
-                <input id="endDate" type="date" class="form-control" name="endDate" required>
+                @if ($oldEndDate != null)
+                    <input id="endDate" type="date" class="form-control" name="endDate" value="{{ $oldEndDate }}" required>
+                @else
+                    <input id="endDate" type="date" class="form-control" name="endDate" required>
+                @endif
             </div>
 
             <div class="form-group col-md-6">
