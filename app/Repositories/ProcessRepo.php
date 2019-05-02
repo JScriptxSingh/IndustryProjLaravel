@@ -4,7 +4,6 @@ namespace app\Repositories;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
-use App\Charts\DefaultChart;
 use App\DataObject;
 
 class ProcessRepo
@@ -129,6 +128,8 @@ class ProcessRepo
 
         // Defining array for storing annual calculations.
         $lifetimeValues = [];
+        $customers = [];
+        $orders = [];
         $totals = 0;
 
         // Canceled and returned orders
@@ -139,7 +140,7 @@ class ProcessRepo
         if (count($newCustomers) > 0) {
             for ($i = 0 ; $i < count($dataStartings) ; $i ++) {
                 $orderDetails = DB::table('finaltable')
-                    ->select('ordertotal', 'taxAmount', 'shippingAmount', 'cust_id')
+                    ->select('ordertotal', 'taxAmount', 'shippingAmount', 'cust_id', 'orderid')
                     ->whereIn(
                         'orderid',
                         DB::table('finaltable')
@@ -156,19 +157,49 @@ class ProcessRepo
                 $total = collect($orderDetails)->sum('ordertotal') - (collect($orderDetails)->sum('taxAmount') + collect($orderDetails)->sum('shippingAmount'));
                 $totals += $total;
                 array_push($lifetimeValues, round($total / count($newCustomers), 2));
+                array_push($customers, count(collect($orderDetails)->groupBy('cust_id')->pluck('cust_id')));
+                array_push($orders, count(collect($orderDetails)->pluck('orderid')));
             }
         }
 
         // Create chart variable.
-        $chart = new DefaultChart;
-
-        // Configuring chart object and assigning gathered data to it.
-        $chart->labels($chartLabels)
-              ->dataset('Average Lifetime Value ($)', $request->chartType, $lifetimeValues)
-              ->options(['backgroundColor' => 'rgba(107, 185, 240, 0.6)'])
-              ->options(['borderColor' => "#228CDB"])
-              ->options(['pointHoverBackgroundColor'=> '#7fb800'])
-              ->options(['hoverBorderColor' =>'rgba(25, 181, 254, 1)']);
+        $chart = app()->chartjs
+            ->name('barChartTest')
+            ->labels($chartLabels)
+            ->type($request->chartType)
+            ->size(['width' => 400, 'height' => 200])
+            ->datasets([
+                [
+                    'label' => 'Average Lifetime Values ($)',
+                    'backgroundColor' => 'rgba(107, 185, 240, 0.6)',
+                    'borderColor' => '#228CDB',
+                    'pointHoverBackgroundColor'=> '#7fb800',
+                    'data' => $lifetimeValues
+                ],
+                [
+                    'label' => 'Orders',
+                    'backgroundColor' => 'rgba(240, 107, 118, 0.6)',
+                    'borderColor' => '#228CDB',
+                    'pointHoverBackgroundColor'=> '#7fb800',
+                    'data' => $orders
+                ],
+                [
+                    'label' => 'Customers',
+                    'backgroundColor' => 'rgba(107, 240, 114, 0.6)',
+                    'borderColor' => '#228CDB',
+                    'pointHoverBackgroundColor'=> '#7fb800',
+                    'data' => $customers
+                ],
+            ])
+            ->options([
+                'scales' => [
+                    'xAxes' => [
+                        [
+                            'stacked' => false
+                        ]
+                    ]
+                ]
+            ]);
 
         $overallAverage = 0;
         if (count($newCustomers) > 0) {

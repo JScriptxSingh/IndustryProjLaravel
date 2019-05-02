@@ -166,8 +166,7 @@ return [
         Barryvdh\Cors\ServiceProvider::class,
 
         //chart provider
-
-        ConsoleTVs\Charts\ChartsServiceProvider::class,
+        Fx3costa\LaravelChartJs\Providers\ChartjsServiceProvider::class,
 
         /*
          * Package Service Providers...
@@ -181,7 +180,6 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-        ConsoleTVs\Charts\ChartsServiceProvider::class,
 
     ],
 

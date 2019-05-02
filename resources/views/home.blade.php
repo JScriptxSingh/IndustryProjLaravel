@@ -100,8 +100,7 @@
     </div>
     
     @if ($displayChart)
-        <div class="myChart">{!! $chart->container() !!}</div>
-        {!! $chart->script() !!}
+        <div class="myChart">{!! $chart->render() !!}</div>
     @endif
 @endsection
 
