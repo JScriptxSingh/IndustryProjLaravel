@@ -40,7 +40,7 @@ class NuminixController extends Controller
             ->pluck('customers_country')
             ->toArray();
 
-        if (strlen($request->countryFilter) > 0 && $request->countryFilter != 'all') {
+        if ($request->get('countryFilter') && $request->countryFilter != 'all') {
             $states = DB::table('finaltable')
                 ->select('customers_state')
                 ->where('customers_country', 'like', $request->countryFilter)

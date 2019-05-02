@@ -104,7 +104,7 @@ class ProcessRepo
 
         // Logic for setting state filters.
         $stateFilter = '%';
-        if ($request->stateFilter != 'all' || null) {
+        if ($request->get('stateFilter')) {
             $stateFilter = $request->stateFilter;
         }
     
