@@ -7,7 +7,7 @@
 @section('content')
 
 <div class="row">
-    <form method="POST" action="/processData" class="border border-primary rounded-lg col-11 col-sm-12 col-md-10 col-lg-7 mx-auto mb-4 p-4">
+    <form method="POST" action="/processData" class="border border-primary rounded-lg col-11 col-sm-12 col-md-10 col-lg-8 mx-auto mb-4 p-4">
                 @csrf
         <div class="row">
             <div class="form-group col-md-6">
@@ -31,11 +31,10 @@
             <div class="form-group col-md-6">
                 <label for="countryFilter">Country</label>
                 <select id="countryFilter" name="countryFilter" class="custom-select">
-                    <option value="all" selected>All</option>
-
+                    <option value="all" {{ $oldCountry == "all" ? "selected" : "" }}>All</option>
                     @foreach ($countries as $country)
                         @if (strlen($country) > 0)
-                            <option value="{{ $country }}">{{ $country }}</option>
+                            <option value="{{ $country }}" {{ $oldCountry == $country ? "selected" : "" }}>{{ $country }}</option>
                         @endif
                     @endforeach
                 </select>
@@ -45,7 +44,6 @@
                 <label for="stateFilter">State</label>
                 <select id="stateFilter" name="stateFilter" class="custom-select" disabled>
                     <option value="all" selected>All</option>
-
                     @foreach ($countries as $country)
                         @if (strlen($country) > 0)
                             <option value="{{ $country }}">{{ $country }}</option>
@@ -57,16 +55,16 @@
             <div class="form-group col-md-6">
                 <label for="chartType">Chart Type</label>
                 <select id="chartType" name="chartType" class="custom-select">
-                    <option value="bar" selected>Bar</option>
-                    <option value="line">Line</option>
+                    <option value="bar" {{ $chartType == "bar" ? "selected" : "" }}>Bar</option>
+                    <option value="line" {{ $chartType == "line" ? "selected" : "" }}>Line</option>
                 </select>
             </div>
 
             <div class="form-group col-md-6">
                 <label for="chartInterval">Chart Interval</label>
                 <select id="chartInterval" name="chartInterval" class="custom-select">
-                    <option value="yearly" selected>Yearly</option>
-                    <option value="monthly">Monthly</option>
+                    <option value="yearly"  {{ $chartInterval == "yearly" ? "selected" : "" }}>Yearly</option>
+                    <option value="monthly" {{ $chartInterval == "monthly" ? "selected" : "" }}>Monthly</option>
                 </select>
             </div>
         </div>
