@@ -3,9 +3,8 @@
 Route::get('/', function (){
     return view('welcome');
 });
-Route::post('/processData', 'NuminixController@processData');
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/home/manage', 'NuminixController@index');
+Route::match(array('GET', 'POST'),'reporting', 'NuminixController@index');

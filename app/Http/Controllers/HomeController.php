@@ -17,7 +17,7 @@ class HomeController extends Controller
     {
         // Logic that determines where to send the user
         if ($request->user()->hasRole('manager')) {
-            return redirect('/home/manage');
+            return redirect('/reporting');
         }
         return view('welcome');
     }

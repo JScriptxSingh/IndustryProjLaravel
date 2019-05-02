@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Charts\DefaultChart;
 use App\Repositories\processRepo;
+use App\DataObject;
 
 class NuminixController extends Controller
 {
@@ -16,6 +17,21 @@ class NuminixController extends Controller
 
     public function index(Request $request)
     {
+        $displayChart = false;
+        $displayAnalysis = false;
+
+        $data = new DataObject;
+
+        $states = [];
+
+        if (strlen($request->startDate) > 0)
+        {
+            $processRepo =  new ProcessRepo();
+            $data = $processRepo->ProcessDatas($request);
+            $displayChart = true;
+            $displayAnalysis = true;
+        }
+
         $request->user()->authorizeRoles(['manager']);
 
         $countries = DB::table('finaltable')
@@ -24,43 +40,24 @@ class NuminixController extends Controller
             ->pluck('customers_country')
             ->toArray();
 
+        if (strlen($request->countryFilter) > 0 && $request->countryFilter != 'all') {
+            $states = DB::table('finaltable')
+                ->select('customers_state')
+                ->where('customers_country', 'like', $request->countryFilter)
+                ->distinct()
+                ->pluck('customers_state')
+                ->toArray();
+        }
+
         return view('home', [
-            'displayChart' => false,
-            'displayAnalysis' => false,
-            'countries' => $countries,
-            'oldStartDate' => '',
-            'oldEndDate' => '',
-            'totalValue' => '',
-            'newCustomers' => '',
-            'overallAverage' => '',
-            'chartInterval' => 'yearly',
-            'chartType' => 'bar',
-            'oldCountry' => 'all',
-            'oldState' => 'all'
-        ]);
-    }
-
-    public function processData(Request $request)
-    {
-        $request->user()->authorizeRoles(['manager']);
-
-        $countries = DB::table('finaltable')
-            ->select('customers_country')        
-            ->distinct()
-            ->pluck('customers_country')
-            ->toArray();
-
-        $processRepo =  new ProcessRepo();
-        $data = $processRepo->ProcessDatas($request);
-        
-        return view('home', [
-            'displayChart' => true,
-            'displayAnalysis' => true,
+            'displayChart' => $displayChart,
+            'displayAnalysis' => $displayAnalysis,
             'chart' => $data->chart,
             'totalValue' => $data->totalValue,
             'newCustomers' => $data->newCustomers,
             'overallAverage' => $data->overallAverage,
             'countries' => $countries,
+            'states' => $states,
             'oldStartDate' => $request->startDate,
             'oldEndDate' => $request->endDate,
             'chartInterval' => $request->chartInterval,

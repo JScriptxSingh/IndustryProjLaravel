@@ -97,11 +97,15 @@ class ProcessRepo
         }
 
         // Logic for setting country filters.
-        $countryFilter = '';
-        if ($request->countryFilter == 'all') {
-            $countryFilter = '%';
-        } else {
+        $countryFilter = '%';
+        if ($request->countryFilter != 'all') {
             $countryFilter = $request->countryFilter;
+        }
+
+        // Logic for setting state filters.
+        $stateFilter = '%';
+        if ($request->stateFilter != 'all' || null) {
+            $stateFilter = $request->stateFilter;
         }
     
         // Getting new customer ids from finaltable.
@@ -117,6 +121,7 @@ class ProcessRepo
                     ->toArray()
             )
             ->where('customers_country', 'like', $countryFilter)
+            ->where('customers_state', 'like', $stateFilter)
             ->distinct()
             ->orderby('cust_id')
             ->pluck('cust_id')

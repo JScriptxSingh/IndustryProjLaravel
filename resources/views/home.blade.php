@@ -7,7 +7,7 @@
 @section('content')
 
 <div class="row">
-    <form method="POST" action="/processData" class="border border-primary rounded-lg col-11 col-sm-12 col-md-10 col-lg-8 mx-auto mb-4 p-4">
+    <form method="POST" action="/reporting" class="border border-primary rounded-lg col-11 col-sm-12 col-md-10 col-lg-8 mx-auto mb-4 p-4">
                 @csrf
         <div class="row">
             <div class="form-group col-md-6">
@@ -30,7 +30,7 @@
 
             <div class="form-group col-md-6">
                 <label for="countryFilter">Country</label>
-                <select id="countryFilter" name="countryFilter" class="custom-select">
+                <select id="countryFilter" name="countryFilter" class="custom-select" onchange="submit();">
                     <option value="all" {{ $oldCountry == "all" ? "selected" : "" }}>All</option>
                     @foreach ($countries as $country)
                         @if (strlen($country) > 0)
@@ -42,11 +42,11 @@
             
             <div class="form-group col-md-6">
                 <label for="stateFilter">State</label>
-                <select id="stateFilter" name="stateFilter" class="custom-select" disabled>
+                <select id="stateFilter" name="stateFilter" class="custom-select" {{ count($states) < 1 ? "disabled" : "" }}>
                     <option value="all" selected>All</option>
-                    @foreach ($countries as $country)
-                        @if (strlen($country) > 0)
-                            <option value="{{ $country }}">{{ $country }}</option>
+                    @foreach ($states as $state)
+                        @if (strlen($state) > 0)
+                            <option value="{{ $state }}" {{ $oldState == $state ? "selected" : "" }}>{{ $state }}</option>
                         @endif
                     @endforeach
                 </select>
