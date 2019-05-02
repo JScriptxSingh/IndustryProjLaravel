@@ -2,7 +2,6 @@
 
 
 body {
-    font-family: 'Raleway', sans-serif;
     background: #fff;
 }
 
@@ -11,7 +10,7 @@ body {
 }
 
 .active-link {
-    color:rgba(0,0,0,.9);
+    color: rgba(0, 0, 0, .9);
 }
 
 .card {
@@ -20,7 +19,7 @@ body {
 
 .myChart {
     width: 100%;
-    height: 600px;
+    height: 500px;
 }
 
 @media (max-width: 61.9375em) {
@@ -52,7 +51,7 @@ main {
     padding: 20px 40px 10px 40px;
 }
 
-.banner{
+.banner {
     width: 100%;
     height: 100%;
     background-position: center center;
@@ -63,7 +62,7 @@ main {
     background-size: cover;
 }
 
-.content-wrapper{
+.content-wrapper {
     width: 80%;
     max-width: 900px;
     margin: 0 auto;
@@ -76,13 +75,13 @@ main {
     border: grey 1px solid;
 }
 
-.landingTitle{
+.landingTitle {
     text-align: center;
     margin: 0 auto;
 }
-  
 
-.logo{
+
+.logo {
     width: 100%;
     height: 180px;
     padding-top: 50px;
@@ -96,7 +95,7 @@ main {
     padding: 20px 0;
 }
 
-.startBtn{
+.startBtn {
     color: #000;
     text-transform: uppercase;
     border-radius: 0;
@@ -106,7 +105,8 @@ main {
     transform: translateZ(0px);
     transition: all 0.5s ease 0s;
 }
-.startBtn:after{
+
+.startBtn:after {
     content: "";
     position: absolute;
     top: 0;
@@ -119,11 +119,13 @@ main {
     transform-origin: 100% 50% 0;
     transition: all 0.5s ease-out 0s;
 }
-.startBtn:hover:after{
+
+.startBtn:hover:after {
     transform: scaleX(1);
     transition-timing-function: cubic-bezier(0.52, 1.64, 0.37, 0.66);
 }
-.startBtn span{
+
+.startBtn span {
     width: 10px;
     height: 100%;
     line-height: 40px;
@@ -133,7 +135,8 @@ main {
     left: 0;
     transition: all 0.3s linear 0s;
 }
-.startBtn span:after{
+
+.startBtn span:after {
     content: "";
     display: block;
     width: 10px;
@@ -147,87 +150,107 @@ main {
     transform: rotate(45deg);
     transition: all 0.3s linear 0s;
 }
-.startBtn.btn-sm{
+
+.startBtn.btn-sm {
     padding-left: 40px;
 }
-.startBtn.btn-sm span{
+
+.startBtn.btn-sm span {
     width: 27px;
     line-height: 27px;
 }
-.startBtn.btn-sm span:after{
+
+.startBtn.btn-sm span:after {
     width: 8px;
     height: 8px;
     right: -5px;
 }
-.startBtn.btn-xs{
+
+.startBtn.btn-xs {
     padding-left: 30px;
 }
-.startBtnstartBtn-xs span{
+
+.startBtnstartBtn-xs span {
     width: 20px;
     line-height: 20px;
 }
-.startBtn.startBtn-xs span:after{
+
+.startBtn.startBtn-xs span:after {
     width: 7px;
     height: 7px;
     right: -4px;
 }
-.startBtn.red{
+
+.startBtn.red {
     border: 1px solid #fe6d6d;
     background: #fe6d6d;
 }
+
 .startBtn.red:hover,
-.startBtn.red span{
+.startBtn.red span {
     color: #fe6d6d;
 }
+
 .startBtn.red:hover span,
-.startBtn.red:hover span:after{
+.startBtn.red:hover span:after {
     background: #fe6d6d;
 }
-.startBtn.blue{
+
+.startBtn.blue {
     border: 1px solid #3bb4e5;
     background: #3bb4e5;
     text-decoration: none;
     padding-left: 20px;
 }
+
 .startBtn.blue:hover,
-.startBtn.blue span{
+.startBtn.blue span {
     color: #fff;
     text-decoration: none;
 }
+
 .startBtn.blue:hover span,
-.startBtn.blue:hover span:after{
+.startBtn.blue:hover span:after {
     background: #3bb4e5;
 }
-.startBtn.orange{
+
+.startBtn.orange {
     border: 1px solid #ee955b;
     background: #ee955b;
 }
+
 .startBtn.orange:hover,
-.startBtn.orange span{
+.startBtn.orange span {
     color: #ee955b;
 }
+
 .startBtn.orange:hover span,
-.startBtn.orange:hover span:after{
+.startBtn.orange:hover span:after {
     background: #ee955b;
 }
-.startBtn.green{
+
+.startBtn.green {
     border: 1px solid #79d799;
     background: #79d799;
 }
+
 .startBtn.green:hover,
-.startBtn.green span{
+.startBtn.green span {
     color: #79d799;
 }
+
 .startBtn.green:hover span,
-.startBtn.green:hover span:after{
+.startBtn.green:hover span:after {
     background: #79d799;
 }
-.startBtn:hover span{
+
+.startBtn:hover span {
     color: #fff;
 }
 
 
-@media only screen and (max-width: 767px){
-    .startBtn{ margin-bottom: 20px; }
+@media only screen and (max-width: 767px) {
+    .startBtn {
+        margin-bottom: 20px;
+    }
 }
-

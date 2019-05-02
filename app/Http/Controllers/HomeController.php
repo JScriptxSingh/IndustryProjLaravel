@@ -19,10 +19,7 @@ class HomeController extends Controller
         if ($request->user()->hasRole('manager')) {
             return redirect('/home/manage');
         }
-        if ($request->user()->hasRole('employee')) {
-            return redirect('/home/employee');
-        }
-        return view('home');
+        return view('welcome');
     }
 
     // Only let managers on this page.
@@ -30,12 +27,5 @@ class HomeController extends Controller
     {
         $request->user()->authorizeRoles(['manager']);
         return view('home');
-    }
-
-    // Let managers and employees see this page.
-    public function employee(Request $request)
-    {
-        $request->user()->authorizeRoles(['manager', 'employee']);
-        return view('/home/employee');
     }
 }

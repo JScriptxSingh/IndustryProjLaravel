@@ -26,12 +26,17 @@ class NuminixController extends Controller
 
         return view('home', [
             'displayChart' => false,
+            'displayAnalysis' => false,
             'countries' => $countries,
             'oldStartDate' => '',
             'oldEndDate' => '',
             'totalValue' => '',
             'newCustomers' => '',
-            'overallAverage' => ''
+            'overallAverage' => '',
+            'chartInterval' => 'yearly',
+            'chartType' => 'bar',
+            'oldCountry' => 'all',
+            'oldState' => 'all'
         ]);
     }
 
@@ -50,13 +55,18 @@ class NuminixController extends Controller
         
         return view('home', [
             'displayChart' => true,
+            'displayAnalysis' => true,
             'chart' => $data->chart,
             'totalValue' => $data->totalValue,
             'newCustomers' => $data->newCustomers,
-            'overallAverage' => ($data->totalValue / $data->newCustomers),
+            'overallAverage' => $data->overallAverage,
             'countries' => $countries,
             'oldStartDate' => $request->startDate,
-            'oldEndDate' => $request->endDate
+            'oldEndDate' => $request->endDate,
+            'chartInterval' => $request->chartInterval,
+            'chartType' => $request->chartType,
+            'oldCountry' => $request->countryFilter,
+            'oldState' =>$request->stateFilter
         ]);
     }
 }

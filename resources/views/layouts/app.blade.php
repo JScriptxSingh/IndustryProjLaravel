@@ -10,7 +10,6 @@
     <title>NUMINIX - @yield('title')</title>
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 
 </head>
 
@@ -19,9 +18,9 @@
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container">
                 <a class="navbar-brand mb-0 h1" href="{{ url('/') }}">
-                    <img src="{{ asset('numinix.svg') }}" height="22" class="d-inline-block align-middle brand-img"
-                        alt="">
+                    <img src="{{ asset('numinix.svg') }}" height="22" class="d-inline-block align-middle brand-img" alt="">
                 </a>
+
                 <button class="navbar-toggler" type="button" data-toggle="collapse"
                     data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                     aria-label="{{ __('Toggle navigation') }}">
@@ -32,42 +31,36 @@
                     <ul class="navbar-nav mr-auto">
                         @guest
                         @else
-                        @if( Auth::user()->hasrole('manager') )
-                        <li>
-                            <a class="nav-link {{ Request::is('home/manage' , 'home/manage/*') ? 'active-link' : '' }}"
-                                href="/home/manage">Reporting</a>
-                        </li>
-                        @endif
+                            @if( Auth::user()->hasrole('manager') )
+                                <li>
+                                    <a class="nav-link {{ Request::is('home/manage' , 'home/manage/*') ? 'active-link' : '' }}"
+                                        href="/home/manage">Reporting</a>
+                                </li>
+                            @endif
                         @endguest
                     </ul>
 
                     <ul class="navbar-nav ml-auto nav-seprate">
                         @guest
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                        </li>
-                        @if (Route::has('register'))
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                        </li>
-                        @endif
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                            </li>
                         @else
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">{{ Auth::user()->email }}</a>
-                        </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">{{ Auth::user()->email }}</a>
+                            </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                {{ __('Logout') }}
-                            </a>
-                        </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault();
+                                                        document.getElementById('logout-form').submit();">
+                                    {{ __('Logout') }}
+                                </a>
+                            </li>
 
-
-                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                            @csrf
-                        </form>
-                        </li>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                @csrf
+                            </form>
+                            </li>
                         @endguest
                     </ul>
                 </div>
@@ -78,7 +71,7 @@
             @yield('content')
         </main>
 
-        <footer>
+        <footer class="pb-5">
             <div class="container">
                 <hr />
                 &copy; 2019 NUMINIX
@@ -86,11 +79,12 @@
         </footer>
     </div>
 
-    @yield('js')
-
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
     </script>
+
+    @yield('js')
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
         integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
     </script>

@@ -12,40 +12,88 @@ class ProcessRepo
     public function processDatas(Request $request)
     {
         // Creating php-Date variable for starting date using form input.
-        $startDate = date_create(explode('-', $request->startDate)[0] . '-' . explode('-', $request->startDate)[1] . '-' . explode('-', $request->startDate)[2]);
+        $startDate = date_create(explode('-', $request->startDate)[0] . '-' . explode('-', $request->startDate)[1] . '-01');
 
         // Creating start month ending variable by performing php Date calculations.
-        $firstMonthEnd = date_add(date_add(date_create(explode('-', $request->startDate)[0] . '-' . explode('-', $request->startDate)[1] . '-' . explode('-', $request->startDate)[2]), date_interval_create_from_date_string('1 month')), date_interval_create_from_date_string('0 day'));
+        $firstMonthEnd = date_add(
+            date_add(
+                date_create(
+                    explode('-', $request->startDate)[0] . '-' . explode('-', $request->startDate)[1] . '-01'
+                    ),
+                date_interval_create_from_date_string('1 month')
+                ),
+            date_interval_create_from_date_string('-1 day')
+            );
 
         // Creating php-Date variable for ending date using form input.
-        $tempEndDate = date_create(explode('-', $request->endDate)[0] . '-' . explode('-', $request->endDate)[1] . '-' . explode('-', $request->endDate)[2]);
-        $endDate = date_add(date_add($tempEndDate, date_interval_create_from_date_string('1 month')), date_interval_create_from_date_string('0 day'));
+        $tempEndDate = date_create(
+            explode('-', $request->endDate)[0] . '-' . explode('-', $request->endDate)[1] . '-01'
+        );
+        $endDate = date_add(
+            date_add(
+                $tempEndDate,
+                date_interval_create_from_date_string('1 month')
+            ),
+            date_interval_create_from_date_string('-1 day')
+        );
 
         // Defining arrays for startings and endings of years.
-        $yearlyStartings = [];
-        $yearlyEndings = [];
+        $dataStartings = [];
+        $dataEndings = [];
 
         // Defining array for labels to be used in charts.
         $chartLabels = [];
 
-        // Logic for getting startings and endings for years.
-        for ($year = intval(date_format($startDate, "Y")); $year <= intval(date_format($endDate, "Y")); $year ++) {
-            $startingMonth = "01";
-            $endingMonth = "12";
-            $endingMonthDay = "31";
+        if ($request->chartInterval == 'yearly') {
+            // Logic for getting startings and endings for years.
+            for ($year = intval(date_format($startDate, "Y")); $year <= intval(date_format($endDate, "Y")); $year ++) {
+                $startingMonth = "01";
+                $endingMonth = "12";
+                $endingMonthDay = "31";
 
-            if ($year == intval(date_format($startDate, "Y"))) {
-                $startingMonth = date_format($startDate, "m");
-            }
+                if ($year == intval(date_format($startDate, "Y"))) {
+                    $startingMonth = date_format($startDate, "m");
+                }
 
-            if ($year == intval(date_format($endDate, "Y"))) {
-                $endingMonth = date_format($endDate, "m");
-                $endingMonthDay = date_format($endDate, "d");
-            }
+                if ($year == intval(date_format($endDate, "Y"))) {
+                    $endingMonth = date_format($endDate, "m");
+                    $endingMonthDay = date_format($endDate, "d");
+                }
             
-            array_push($yearlyStartings, strval($year) . '-' . $startingMonth . '-01');
-            array_push($yearlyEndings, strval($year) . '-' . $endingMonth . '-' . $endingMonthDay);
-            array_push($chartLabels, strval($year));
+                array_push($dataStartings, strval($year) . '-' . $startingMonth . '-01');
+                array_push($dataEndings, strval($year) . '-' . $endingMonth . '-' . $endingMonthDay);
+                array_push($chartLabels, strval($year));
+            }
+        } elseif ($request->chartInterval == 'monthly') {
+            // Logic for getting startings and endings for months.
+            for ($year = intval(date_format($startDate, "Y")); $year <= intval(date_format($endDate, "Y")); $year ++) {
+                $startingMonth = 01;
+                $endingMonth = 12;
+
+                if ($year == intval(date_format($startDate, "Y"))) {
+                    $startingMonth = intval(date_format($startDate, "m"));
+                }
+
+                if ($year == intval(date_format($endDate, "Y"))) {
+                    $endingMonth = intval(date_format($endDate, "m"));
+                }
+
+                for ($month = $startingMonth; $month <= $endingMonth; $month ++) {
+                    $tempDate = date_create($year . '-' . $month . '-01');
+
+                    $monthEnd = date_add(
+                        date_add(
+                            $tempDate,
+                            date_interval_create_from_date_string('1 month')
+                        ),
+                        date_interval_create_from_date_string('-1 day')
+                    );
+
+                    array_push($dataStartings, strval($year) . '-' . strval($month) . '-01');
+                    array_push($dataEndings, strval($year) . '-' . strval($month) . '-' . date_format($monthEnd, "d"));
+                    array_push($chartLabels, strval($year) . '-' . strval($month));
+                }
+            }
         }
 
         // Logic for setting country filters.
@@ -61,7 +109,7 @@ class ProcessRepo
         $newCustomers = DB::table('finaltable')
             ->whereBetween('date_purchased', [date_format($startDate, "Y-m-d"), date_format($firstMonthEnd, "Y-m-d")])
             ->whereNotIn(
-                'cust_id', 
+                'cust_id',
                 DB::table('finaltable')
                     ->where('date_purchased', '<', date_format($startDate, "Y-m-d"))
                     ->distinct()
@@ -75,31 +123,34 @@ class ProcessRepo
             ->toArray();
 
         // Defining array for storing annual calculations.
-        $yearlyLifetimes = [];
+        $lifetimeValues = [];
         $totals = 0;
 
-        // Getting annual values from the database.
-        if (count($newCustomers) > 0) {
-            for ($i = 0 ; $i < count($yearlyStartings) ; $i ++) {
-                $yearlyCustomerOrders = DB::table('finaltable')
-                    ->whereBetween('date_purchased', [$yearlyStartings[$i], $yearlyEndings[$i]])
-                    ->whereNotIn('orders_status', [5, 8])
-                    ->whereIn('cust_id', $newCustomers)
-                    ->orderby('date_purchased', 'asc')
-                    ->pluck('orderid')
-                    ->toArray();
+        // Canceled and returned orders
+        $statusCanceled = 5;
+        $statusReturned = 8;
 
-                $yearlyTotals = DB::table('finaltable')
-                    ->select('ordertotal', 'taxAmount', 'shippingAmount')
-                    ->whereIn('orderid', $yearlyCustomerOrders)
+        // Getting data from the database.
+        if (count($newCustomers) > 0) {
+            for ($i = 0 ; $i < count($dataStartings) ; $i ++) {
+                $orderDetails = DB::table('finaltable')
+                    ->select('ordertotal', 'taxAmount', 'shippingAmount', 'cust_id')
+                    ->whereIn(
+                        'orderid',
+                        DB::table('finaltable')
+                            ->whereBetween('date_purchased', [$dataStartings[$i], $dataEndings[$i]])
+                            ->whereIn('cust_id', $newCustomers)
+                            ->orderby('date_purchased', 'asc')
+                            ->whereNotIn('orders_status', [$statusCanceled, $statusReturned])
+                            ->pluck('orderid')
+                            ->toArray()
+                    )
                     ->get();
 
-                // Calculating yearly totals.
-                $yearlyFinal = collect($yearlyTotals)->sum('ordertotal') - (collect($yearlyTotals)->sum('taxAmount') + collect($yearlyTotals)->sum('shippingAmount'));
-
-                $totals += $yearlyFinal;
-
-                array_push($yearlyLifetimes, round($yearlyFinal / count($newCustomers), 2));
+                // Calculating chart datas.
+                $total = collect($orderDetails)->sum('ordertotal') - (collect($orderDetails)->sum('taxAmount') + collect($orderDetails)->sum('shippingAmount'));
+                $totals += $total;
+                array_push($lifetimeValues, round($total / count($newCustomers), 2));
             }
         }
 
@@ -108,11 +159,16 @@ class ProcessRepo
 
         // Configuring chart object and assigning gathered data to it.
         $chart->labels($chartLabels)
-              ->dataset('Average Lifetime Value ($)', $request->chartType, $yearlyLifetimes)
+              ->dataset('Average Lifetime Value ($)', $request->chartType, $lifetimeValues)
               ->options(['backgroundColor' => 'rgba(107, 185, 240, 0.6)'])
               ->options(['borderColor' => "#228CDB"])
               ->options(['pointHoverBackgroundColor'=> '#7fb800'])
               ->options(['hoverBorderColor' =>'rgba(25, 181, 254, 1)']);
+
+        $overallAverage = 0;
+        if (count($newCustomers) > 0) {
+            $overallAverage = $totals / count($newCustomers);
+        }
 
         // Create data object that will be returned with required data to controller
         $dataObject = new DataObject;
@@ -120,6 +176,7 @@ class ProcessRepo
         $dataObject->chart = $chart;
         $dataObject->totalValue = $totals;
         $dataObject->newCustomers = count($newCustomers);
+        $dataObject->overallAverage = $overallAverage;
 
         return $dataObject;
     }

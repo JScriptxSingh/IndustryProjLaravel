@@ -29,8 +29,21 @@
             </div>
 
             <div class="form-group col-md-6">
-                <label for="countryFilter">Filter by Country</label>
+                <label for="countryFilter">Country</label>
                 <select id="countryFilter" name="countryFilter" class="custom-select">
+                    <option value="all" selected>All</option>
+
+                    @foreach ($countries as $country)
+                        @if (strlen($country) > 0)
+                            <option value="{{ $country }}">{{ $country }}</option>
+                        @endif
+                    @endforeach
+                </select>
+            </div>
+            
+            <div class="form-group col-md-6">
+                <label for="stateFilter">State</label>
+                <select id="stateFilter" name="stateFilter" class="custom-select" disabled>
                     <option value="all" selected>All</option>
 
                     @foreach ($countries as $country)
@@ -48,6 +61,14 @@
                     <option value="line">Line</option>
                 </select>
             </div>
+
+            <div class="form-group col-md-6">
+                <label for="chartInterval">Chart Interval</label>
+                <select id="chartInterval" name="chartInterval" class="custom-select">
+                    <option value="yearly" selected>Yearly</option>
+                    <option value="monthly">Monthly</option>
+                </select>
+            </div>
         </div>
 
         <div class="row">
@@ -55,10 +76,10 @@
         </div>
     </form>
 
-    @if($totalValue != null)
+    @if($displayAnalysis)
         <div class="col-12 col-sm-12 col-md-10 col-lg-4 mx-auto">
-            <div class="jumbotron px-2 py-1 pt-3 mb-4 bg-white border border-primary rounded-lg">
-                <div class="container d-flex flex-column">
+            <div class="jumbotron px-2 py-1 pt-3 bg-white border border-primary mb-5 rounded-lg">
+                <div class="container">
                     <h3 class="mb-0">
                         $ {{ number_format( floatval( $totalValue ), 2, '.', ',') }}
                     </h3>
