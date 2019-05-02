@@ -171,21 +171,21 @@ class ProcessRepo
             ->datasets([
                 [
                     'label' => 'Average Lifetime Values ($)',
-                    'backgroundColor' => 'rgba(107, 185, 240, 0.6)',
+                    'backgroundColor' => 'rgba(255, 0, 0, 0.6)',
                     'borderColor' => '#228CDB',
                     'pointHoverBackgroundColor'=> '#7fb800',
                     'data' => $lifetimeValues
                 ],
                 [
                     'label' => 'Orders',
-                    'backgroundColor' => 'rgba(240, 107, 118, 0.6)',
+                    'backgroundColor' => 'rgba(0, 0, 255, 0.6)',
                     'borderColor' => '#228CDB',
                     'pointHoverBackgroundColor'=> '#7fb800',
                     'data' => $orders
                 ],
                 [
                     'label' => 'Customers',
-                    'backgroundColor' => 'rgba(107, 240, 114, 0.6)',
+                    'backgroundColor' => 'rgba(0, 255, 0, 0.6)',
                     'borderColor' => '#228CDB',
                     'pointHoverBackgroundColor'=> '#7fb800',
                     'data' => $customers
