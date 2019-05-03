@@ -29,7 +29,7 @@
                     <ul class="navbar-nav mr-auto">
                         @guest
                         @else
-                        @if( Auth::user()->hasrole('manager') )
+                        @if( Auth::user()->hasrole('admin') )
                         <li>
                                     <a class="nav-link {{ Request::is('home/manage' , 'home/manage/*') ? 'active-link' : '' }}"
                                         href="/reporting">Reporting</a>

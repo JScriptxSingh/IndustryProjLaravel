@@ -13,18 +13,18 @@
             <div class="form-group col-md-6">
                 <label for="startDate">Start Date</label>
                 @if ($oldStartDate != null)
-                    <input id="startDate" type="date" class="form-control" name="startDate" value="{{ $oldStartDate }}" required autofocus>
+                    <input id="startDate" type="month" class="form-control" name="startDate" min="{{ $minDate }}" value="{{ $oldStartDate }}" required autofocus>
                 @else
-                    <input id="startDate" type="date" class="form-control" name="startDate" required autofocus>
+                    <input id="startDate" type="month" class="form-control" name="startDate" required autofocus>
                 @endif
             </div>
             
             <div class="form-group col-md-6">
                 <label for="endDate">End Date</label>
                 @if ($oldEndDate != null)
-                    <input id="endDate" type="date" class="form-control" name="endDate" value="{{ $oldEndDate }}" required>
+                    <input id="endDate" type="month" class="form-control" name="endDate" value="{{ $oldEndDate }}" required>
                 @else
-                    <input id="endDate" type="date" class="form-control" name="endDate" required>
+                    <input id="endDate" type="month" class="form-control" name="endDate" required>
                 @endif
             </div>
 
@@ -102,6 +102,20 @@
     @if ($displayChart)
         <div class="myChart">{!! $chart->render() !!}</div>
     @endif
+    
+    @if ($noNewCustomers)
+        <div class="col-12 col-sm-12 col-md-10 col-lg-8 mx-auto">
+            <div class="jumbotron px-2 py-1 pt-3 bg-white border border-danger mb-5 rounded-lg">
+                <div class="container">
+                    <h3 class="mb-0">
+                        $ {{ number_format( floatval( $totalValue ), 2, '.', ',') }}
+                    </h3>
+                    <p class="lead">No new customers found based on the dates input and filters provided.</p>
+                </div>
+            </div>
+        </div>
+    @endif
+
 @endsection
 
 @section('js')

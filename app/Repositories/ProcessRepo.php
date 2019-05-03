@@ -1,5 +1,5 @@
 <?php
-namespace app\Repositories;
+namespace App\Repositories;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;

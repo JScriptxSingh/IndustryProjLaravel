@@ -16,7 +16,7 @@ class HomeController extends Controller
     public function index(Request $request)
     {
         // Logic that determines where to send the user
-        if ($request->user()->hasRole('manager')) {
+        if ($request->user()->hasRole('admin')) {
             return redirect('/reporting');
         }
         return view('welcome');
@@ -25,7 +25,7 @@ class HomeController extends Controller
     // Only let managers on this page.
     public function manage(Request $request)
     {
-        $request->user()->authorizeRoles(['manager']);
+        $request->user()->authorizeRoles(['admin']);
         return view('home');
     }
 }
