@@ -106,7 +106,7 @@ class ProcessRepo
         if ($request->get('stateFilter')) {
             $stateFilter = $request->stateFilter;
         }
-    
+       
         // Getting new customer ids from finaltable.
         // *** NOW USING SUB QUERY.
         $newCustomers = DB::table('finaltable')
@@ -161,7 +161,7 @@ class ProcessRepo
                 array_push($orders, count(collect($orderDetails)->pluck('orderid')));
             }
         }
-
+       // var fillPattern = 
         // Create chart variable.
         $chart = app()->chartjs
             ->name('barChartTest')
@@ -171,8 +171,9 @@ class ProcessRepo
             ->datasets([
                 [
                     'label' => 'Average Lifetime Values ($)',
-                    'backgroundColor' => 'rgba(255, 0, 0, 0.6)',
+                    'backgroundColor' => 'rgba(255, 255, 0, 0.6)',
                     'borderColor' => '#228CDB',
+                     'fillColor' => "#2c9c69",
                     'pointHoverBackgroundColor'=> '#7fb800',
                     'data' => $lifetimeValues
                 ],
