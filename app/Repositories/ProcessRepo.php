@@ -161,8 +161,6 @@ class ProcessRepo
                 array_push($orders, count(collect($orderDetails)->pluck('orderid')));
             }
         }
-       // var fillPattern = 
-        // Create chart variable.
         $chart = app()->chartjs
             ->name('barChartTest')
             ->labels($chartLabels)
