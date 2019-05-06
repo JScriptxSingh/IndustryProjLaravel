@@ -21,7 +21,7 @@ class ProcessRepo
                     ),
                 date_interval_create_from_date_string('1 month')
                 ),
-            date_interval_create_from_date_string('-1 day')
+            date_interval_create_from_date_string('0 day')
             );
 
         // Creating php-Date variable for ending date using form input.
@@ -33,7 +33,7 @@ class ProcessRepo
                 $tempEndDate,
                 date_interval_create_from_date_string('1 month')
             ),
-            date_interval_create_from_date_string('-1 day')
+            date_interval_create_from_date_string('0 day')
         );
 
         // Defining arrays for startings and endings of years.
@@ -157,7 +157,7 @@ class ProcessRepo
                 $total = collect($orderDetails)->sum('ordertotal') - (collect($orderDetails)->sum('taxAmount') + collect($orderDetails)->sum('shippingAmount'));
                 $totals += $total;
                 array_push($lifetimeValues, round($total / count($newCustomers), 2));
-                array_push($customers, count(collect($orderDetails)->groupBy('cust_id')->pluck('cust_id')));
+                array_push($customers, collect($orderDetails)->groupBy('cust_id')->pluck('cust_id'));
                 array_push($orders, count(collect($orderDetails)->pluck('orderid')));
             }
         }
