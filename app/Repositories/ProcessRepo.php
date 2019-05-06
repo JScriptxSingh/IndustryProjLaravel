@@ -126,7 +126,7 @@ class ProcessRepo
             ->pluck('cust_id')
             ->toArray();
 
-        // Defining array for storing annual calculations.
+        // Defining array for storing calculations.
         $lifetimeValues = [];
         $customers = [];
         $orders = [];
