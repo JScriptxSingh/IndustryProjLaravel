@@ -162,7 +162,7 @@ class ProcessRepo
             }
         }
 
-        // Create chart variable.
+        // Create chart variables. You can change styling and colors in this section
         $chart = app()->chartjs
             ->name('barChartTest')
             ->labels($chartLabels)
