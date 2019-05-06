@@ -17,7 +17,7 @@ Set your database credentials inside the `.env` file.
 Run these inside project directory
 
 ```bash
-$ composer install
+$ composer update
 $ php artisan key:generate
 $ php artisan serv
 ```
