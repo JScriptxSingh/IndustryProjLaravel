@@ -21,3 +21,9 @@ $ composer install
 $ php artisan key:generate
 $ php artisan serv
 ```
+
+User:
+admin@numinix.com
+
+Password:
+xGPc8x+G

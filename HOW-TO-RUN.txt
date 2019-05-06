@@ -1,7 +1,10 @@
 INSIDE PROJECT DIRECTORY
 
 $ Copy and replace .env file with .env.example
-$ composer install
+$ composer install (if composer is installed already run $composer update)
 $ php artisan key:generate
 $ php artisan vendor:publish --provider="Tymon\JWTAuth\Providers\LaravelServiceProvider"
 $ php artisan serv
+
+new username : admin@numinix.com
+password : xGPc8x+G

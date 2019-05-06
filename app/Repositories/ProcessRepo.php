@@ -106,7 +106,7 @@ class ProcessRepo
         if ($request->get('stateFilter')) {
             $stateFilter = $request->stateFilter;
         }
-    
+       
         // Getting new customer ids from finaltable.
         // *** NOW USING SUB QUERY.
         $newCustomers = DB::table('finaltable')
@@ -157,12 +157,10 @@ class ProcessRepo
                 $total = collect($orderDetails)->sum('ordertotal') - (collect($orderDetails)->sum('taxAmount') + collect($orderDetails)->sum('shippingAmount'));
                 $totals += $total;
                 array_push($lifetimeValues, round($total / count($newCustomers), 2));
-                array_push($customers, count(collect($orderDetails)->groupBy('cust_id')->pluck('cust_id')));
+                array_push($customers, collect($orderDetails)->groupBy('cust_id')->pluck('cust_id'));
                 array_push($orders, count(collect($orderDetails)->pluck('orderid')));
             }
         }
-
-        // Create chart variables. You can change styling and colors in this section
         $chart = app()->chartjs
             ->name('barChartTest')
             ->labels($chartLabels)
@@ -174,6 +172,7 @@ class ProcessRepo
                     'label' => 'Customers',
                     'backgroundColor' => 'rgb(0, 255, 0)',
                     'borderColor' => '#228CDB',
+                     'fillColor' => "#2c9c69",
                     'pointHoverBackgroundColor'=> '#7fb800',
                     'data' => $customers
                 ],
