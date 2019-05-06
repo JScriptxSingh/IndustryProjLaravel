@@ -21,7 +21,7 @@ class ProcessRepo
                     ),
                 date_interval_create_from_date_string('1 month')
                 ),
-            date_interval_create_from_date_string('-1 day')
+            date_interval_create_from_date_string('0 day')
             );
 
         // Creating php-Date variable for ending date using form input.
@@ -33,7 +33,7 @@ class ProcessRepo
                 $tempEndDate,
                 date_interval_create_from_date_string('1 month')
             ),
-            date_interval_create_from_date_string('-1 day')
+            date_interval_create_from_date_string('0 day')
         );
 
         // Defining arrays for startings and endings of years.
