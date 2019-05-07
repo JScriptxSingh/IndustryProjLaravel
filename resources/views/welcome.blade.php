@@ -14,7 +14,7 @@ Welcome
   <div class="startButton">
   <div class="row">
         <div class="col-sm-3">
-            <a href="{{ route('login') }}" type="button" class="startBtn btn-lg blue">
+            <a href="/reporting" type="button" class="startBtn btn-lg blue">
                 <span class="fa fa-home"></span>Get Started
             </a>
         </div>
