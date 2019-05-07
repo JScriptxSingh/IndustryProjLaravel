@@ -13,18 +13,18 @@
             <div class="form-group col-md-6">
                 <label for="startDate">Start Date</label>
                 @if ($oldStartDate != null)
-                    <input id="startDate" type="month" class="form-control" name="startDate" min="{{ $minDate }}" value="{{ $oldStartDate }}" required autofocus>
+                    <input id="startDate" type="month" class="form-control" name="startDate" min="{{ $minDate }}" value="{{ $oldStartDate }}" onchange="setMinEndDate();" required autofocus>
                 @else
-                    <input id="startDate" type="month" class="form-control" min="{{ $minDate }}" name="startDate" required autofocus>
+                    <input id="startDate" type="month" class="form-control" min="{{ $minDate }}" name="startDate" onchange="setMinEndDate();" required autofocus>
                 @endif
             </div>
             
             <div class="form-group col-md-6">
                 <label for="endDate">End Date</label>
                 @if ($oldEndDate != null)
-                    <input id="endDate" type="month" class="form-control" name="endDate" min="{{ $minDate }}" value="{{ $oldEndDate }}" required>
+                    <input id="endDate" type="month" class="form-control" name="endDate" min="{{ $minDate }}" value="{{ $oldEndDate }}" onchange="setMinEndDate();" required>
                 @else
-                    <input id="endDate" type="month" class="form-control" min="{{ $minDate }}" name="endDate" required>
+                    <input id="endDate" type="month" class="form-control" min="{{ $minDate }}" name="endDate" onchange="setMinEndDate();" required>
                 @endif
             </div>
 

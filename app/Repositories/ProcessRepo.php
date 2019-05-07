@@ -15,10 +15,10 @@ class ProcessRepo
 
         // Creating start month ending variable by performing php Date calculations.
         $firstMonthEnd = date_add(
-            date_create(
-                    explode('-', $request->startDate)[0] . '-' . explode('-', $request->startDate)[1] . '-01'
-                ),
-            date_interval_create_from_date_string('1 month')
+                date_create(
+                        explode('-', $request->startDate)[0] . '-' . explode('-', $request->startDate)[1] . '-01'
+                    ),
+                date_interval_create_from_date_string('1 month')
             );
 
         // Creating php-Date variable for ending date using form input.
@@ -26,8 +26,10 @@ class ProcessRepo
             explode('-', $request->endDate)[0] . '-' . explode('-', $request->endDate)[1] . '-01'
         );
         $endDate = date_add(
-            $tempEndDate,
-            date_interval_create_from_date_string('1 month')
+            date_add(
+                $tempEndDate,
+                date_interval_create_from_date_string('1 month')),
+            date_interval_create_from_date_string('-1 days')
         );
 
         // Defining arrays for startings and endings of years.

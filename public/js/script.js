@@ -1,4 +1,3 @@
-$('#startDate').change(setMinEndDate());
 $(document).ready(setMinEndDate());
 
 function setMinEndDate() {
