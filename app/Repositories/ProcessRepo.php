@@ -159,10 +159,6 @@ class ProcessRepo
                 array_push($lifetimeValues, round($total / count($newCustomers), 2));
                 array_push($customers, count(collect($orderDetails)->groupBy('cust_id')->pluck('cust_id')));
                 array_push($orders, count(collect($orderDetails)->pluck('orderid')));
-
-                echo collect($orderDetails)->sum('ordertotal') . '<br>';
-                echo collect($orderDetails)->sum('taxAmount') . '<br>';
-                echo collect($orderDetails)->sum('shippingAmount');
             }
         }
 
