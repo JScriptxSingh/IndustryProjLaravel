@@ -9,10 +9,6 @@ use App\DataObject;
 
 class NuminixController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
 
     public function index(Request $request)
     {
@@ -29,8 +25,6 @@ class NuminixController extends Controller
             $data = $processRepo->ProcessDatas($request);
             $noNewCustomers = true;
         }
-
-        $request->user()->authorizeRoles(['admin']);
 
         $countries = DB::table('finaltable')
             ->select('customers_country')        

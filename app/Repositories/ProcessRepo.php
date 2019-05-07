@@ -15,13 +15,10 @@ class ProcessRepo
 
         // Creating start month ending variable by performing php Date calculations.
         $firstMonthEnd = date_add(
-            date_add(
-                date_create(
+            date_create(
                     explode('-', $request->startDate)[0] . '-' . explode('-', $request->startDate)[1] . '-01'
-                    ),
-                date_interval_create_from_date_string('1 month')
                 ),
-            date_interval_create_from_date_string('0 day')
+            date_interval_create_from_date_string('1 month')
             );
 
         // Creating php-Date variable for ending date using form input.
@@ -29,11 +26,8 @@ class ProcessRepo
             explode('-', $request->endDate)[0] . '-' . explode('-', $request->endDate)[1] . '-01'
         );
         $endDate = date_add(
-            date_add(
-                $tempEndDate,
-                date_interval_create_from_date_string('1 month')
-            ),
-            date_interval_create_from_date_string('0 day')
+            $tempEndDate,
+            date_interval_create_from_date_string('1 month')
         );
 
         // Defining arrays for startings and endings of years.
@@ -104,7 +98,9 @@ class ProcessRepo
         // Logic for setting state filters.
         $stateFilter = '%';
         if ($request->get('stateFilter')) {
-            $stateFilter = $request->stateFilter;
+            if ($request->stateFilter != 'all') {
+                $stateFilter = $request->stateFilter;
+            }
         }
     
         // Getting new customer ids from finaltable.
@@ -169,27 +165,24 @@ class ProcessRepo
             ->type($request->chartType)
             ->size(['width' => 400, 'height' => 200])
             ->datasets([
-
                 [
                     'label' => 'Customers',
                     'backgroundColor' => 'rgb(0, 255, 0)',
-                    'borderColor' => '#228CDB',
+                    'borderColor' => 'rgb(0, 255, 0)',
                     'pointHoverBackgroundColor'=> '#7fb800',
                     'data' => $customers
                 ],
-
                 [
                     'label' => 'Orders',
                     'backgroundColor' => 'rgb(0, 0, 255)',
-                    'borderColor' => '#228CDB',
+                    'borderColor' => 'rgb(0, 0, 255)',
                     'pointHoverBackgroundColor'=> '#7fb800',
                     'data' => $orders
                 ],
-
                 [
                     'label' => 'Average Lifetime Values ($)',
                     'backgroundColor' => 'rgb(255, 0, 0)',
-                    'borderColor' => '#228CDB',
+                    'borderColor' => 'rgb(255, 0, 0)',
                     'pointHoverBackgroundColor'=> '#7fb800',
                     'data' => $lifetimeValues
                 ],

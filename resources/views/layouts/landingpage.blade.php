@@ -27,40 +27,10 @@
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">
-                        @guest
-                        @else
-                        @if( Auth::user()->hasrole('admin') )
                         <li>
                                     <a class="nav-link {{ Request::is('home/manage' , 'home/manage/*') ? 'active-link' : '' }}"
                                         href="/reporting">Reporting</a>
                         </li>
-                        @endif
-                        @endguest
-                    </ul>
-
-                    <ul class="navbar-nav ml-auto nav-seprate">
-                        @guest
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                        </li>
-                        @else
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">{{ Auth::user()->email }}</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                {{ __('Logout') }}
-                            </a>
-                        </li>
-
-
-                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                            @csrf
-                        </form>
-                        </li>
-                        @endguest
                     </ul>
                 </div>
             </div>
