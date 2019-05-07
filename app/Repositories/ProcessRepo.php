@@ -29,7 +29,7 @@ class ProcessRepo
             date_add(
                 $tempEndDate,
                 date_interval_create_from_date_string('1 month')),
-            date_interval_create_from_date_string('-1 days')
+            date_interval_create_from_date_string('0 days')
         );
 
         // Defining arrays for startings and endings of years.
@@ -89,6 +89,8 @@ class ProcessRepo
                     array_push($chartLabels, strval($year) . '-' . strval($month));
                 }
             }
+
+            array_pop($chartLabels);
         }
 
         // Logic for setting country filters.
@@ -157,6 +159,10 @@ class ProcessRepo
                 array_push($lifetimeValues, round($total / count($newCustomers), 2));
                 array_push($customers, count(collect($orderDetails)->groupBy('cust_id')->pluck('cust_id')));
                 array_push($orders, count(collect($orderDetails)->pluck('orderid')));
+
+                echo collect($orderDetails)->sum('ordertotal') . '<br>';
+                echo collect($orderDetails)->sum('taxAmount') . '<br>';
+                echo collect($orderDetails)->sum('shippingAmount');
             }
         }
 
