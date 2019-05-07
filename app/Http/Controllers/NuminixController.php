@@ -35,6 +35,9 @@ class NuminixController extends Controller
         $minDate = DB::table('finaltable')
             ->min('date_purchased');
 
+        $maxDate = DB::table('finaltable')
+            ->max('date_purchased');
+
         if ($request->get('countryFilter') && $request->countryFilter != 'all') {
             $states = DB::table('finaltable')
                 ->select('customers_state')
@@ -66,7 +69,8 @@ class NuminixController extends Controller
             'oldCountry'        => $request->countryFilter,
             'oldState'          => $request->stateFilter,
             'noNewCustomers'    => $noNewCustomers,
-            'minDate'           => explode('-', $minDate)[0] . '-' . explode('-', $minDate)[1]
+            'minDate'           => explode('-', $minDate)[0] . '-' . explode('-', $minDate)[1],
+            'maxDate'           => explode('-', $maxDate)[0] . '-' . explode('-', $maxDate)[1]
         ]);
     }
 }
