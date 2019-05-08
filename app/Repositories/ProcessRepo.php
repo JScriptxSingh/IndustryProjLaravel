@@ -15,10 +15,10 @@ class ProcessRepo
 
         // Creating start month ending variable by performing php Date calculations.
         $firstMonthEnd = date_add(
-                date_create(
-                        explode('-', $request->startDate)[0] . '-' . explode('-', $request->startDate)[1] . '-01'
+            date_create(
+                    explode('-', $request->startDate)[0] . '-' . explode('-', $request->startDate)[1] . '-01'
                     ),
-                date_interval_create_from_date_string('1 month')
+            date_interval_create_from_date_string('1 month')
             );
 
         // Creating php-Date variable for ending date using form input.
@@ -28,7 +28,8 @@ class ProcessRepo
         $endDate = date_add(
             date_add(
                 $tempEndDate,
-                date_interval_create_from_date_string('1 month')),
+                date_interval_create_from_date_string('1 month')
+            ),
             date_interval_create_from_date_string('0 days')
         );
 
@@ -58,6 +59,10 @@ class ProcessRepo
                 array_push($dataStartings, strval($year) . '-' . $startingMonth . '-01');
                 array_push($dataEndings, strval($year) . '-' . $endingMonth . '-' . $endingMonthDay);
                 array_push($chartLabels, strval($year));
+            }
+
+            if (intval(date_format($endDate, "m")) == 01 && intval(date_format($endDate, "d")) == 01) {
+                array_pop($chartLabels);
             }
         } elseif ($request->chartInterval == 'monthly') {
             // Logic for getting startings and endings for months.
