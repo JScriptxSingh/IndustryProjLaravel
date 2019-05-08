@@ -16,7 +16,7 @@ class ProcessRepo
         // Creating start month ending variable by performing php Date calculations.
         $firstMonthEnd = date_add(
             date_create(
-                    explode('-', $request->startDate)[0] . '-' . explode('-', $request->startDate)[1] . '-01'
+                explode('-', $request->startDate)[0] . '-' . explode('-', $request->startDate)[1] . '-01'
                     ),
             date_interval_create_from_date_string('1 month')
             );
@@ -176,23 +176,23 @@ class ProcessRepo
             ->datasets([
                 [
                     'label' => 'Customers',
-                    'backgroundColor' => 'rgb(0, 255, 0)',
+                    'backgroundColor' => 'rgba(0, 255, 0, 0.5)',
                     'borderColor' => 'rgb(0, 255, 0)',
-                    'pointHoverBackgroundColor'=> '#7fb800',
+                    'pointHoverBackgroundColor'=> 'rgb(0, 255, 0)',
                     'data' => $customers
                 ],
                 [
                     'label' => 'Orders',
-                    'backgroundColor' => 'rgb(0, 0, 255)',
+                    'backgroundColor' => 'rgba(0, 0, 255, 0.5)',
                     'borderColor' => 'rgb(0, 0, 255)',
-                    'pointHoverBackgroundColor'=> '#7fb800',
+                    'pointHoverBackgroundColor'=> 'rgb(0, 0, 255)',
                     'data' => $orders
                 ],
                 [
                     'label' => 'Average Lifetime Values ($)',
-                    'backgroundColor' => 'rgb(255, 0, 0)',
+                    'backgroundColor' => 'rgba(255, 0, 0, 0.5)',
                     'borderColor' => 'rgb(255, 0, 0)',
-                    'pointHoverBackgroundColor'=> '#7fb800',
+                    'pointHoverBackgroundColor'=> 'rgb(255, 0, 0)',
                     'data' => $lifetimeValues
                 ],
             ])
