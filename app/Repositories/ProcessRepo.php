@@ -169,7 +169,7 @@ class ProcessRepo
 
         // Create chart variable.
         $chart = app()->chartjs
-            ->name('barChartTest')
+            ->name('LifetimeValues')
             ->labels($chartLabels)
             ->type($request->chartType)
             ->size(['width' => 400, 'height' => 200])
@@ -200,7 +200,11 @@ class ProcessRepo
                 'scales' => [
                     'xAxes' => [
                         [
-                            'stacked' => false
+                            'stacked' => false,
+                            'scaleLabel' => [
+                                'display' => true,
+                                'labelString' => 'Timeline'
+                            ]
                         ]
                     ]
                 ]
